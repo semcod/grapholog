@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "grapholog"
-version = "0.5.0"
+version = "0.5.1"
 description = "One-shot terminal project graphs, syntax fingerprints and project comparison"
 readme = "README.md"
 requires-python = ">=3.10"
-license = "MIT"
-authors = [{name = "Grapholog contributors"}]
+license = "Apache-2.0"
+authors = [{name = "Grapholog contributors"}, {name = "Tom Sapletta",email = "tom@sapletta.com"}]
 dependencies = [
   "jsonschema>=4.23,<5",
   "planfile>=0.1.126",
