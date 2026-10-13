@@ -1,0 +1,16 @@
+{
+  "schema": "grapholog.extraction-config.v1",
+  "coordinator": "shared",
+  "new_package_directory": "packages",
+  "packages": [
+    {
+      "id": "keys",
+      "name": "shared-keys",
+      "project": "shared",
+      "path": "src",
+      "language": "python",
+      "kind": "package"
+    }
+  ],
+  "repositories": []
+}

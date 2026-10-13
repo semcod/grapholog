@@ -1,0 +1,12 @@
+{
+  "version": "0.4.0",
+  "passed": [
+    "26 source/resource files identical in wheel, installed package and zipapp",
+    "installed CLI and zipapp: version, logic scan, shared query result",
+    "installed CLI: three-project index, full graph, terminal output",
+    "zipapp resources: HTML, contracts, source evidence, context and proposal validation",
+    "bundled native binary version and SHA-256 match measured binary",
+    "report HTML parsed and expected content present"
+  ],
+  "llm_called": false
+}

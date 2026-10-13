@@ -1,0 +1,24 @@
+# Grapholog canonical JSON; always apply JSON Schema and reference validation.
+root ::= rule-18 ws
+rule-1 ::= "\"" char{1,240} "\""
+rule-2 ::= "\"" char{1,240} "\""
+rule-3 ::= "\"" char{0,4000} "\""
+rule-4 ::= "\"" char{0,100000} "\""
+rule-5 ::= "\"critical\"" | "\"high\"" | "\"normal\"" | "\"low\""
+rule-6 ::= "\"" char{1,240} "\""
+rule-7 ::= "\"" char{1,240} "\""
+rule-8 ::= "\"" char{0,256} "\""
+rule-9 ::= "{" ws "\"tool\"" ws ":" ws "\"grapholog\"" ws "," ws "\"tool_version\"" ws ":" ws rule-6 ws "," ws "\"finding_id\"" ws ":" ws rule-7 ws "," ws "\"artifact_digest\"" ws ":" ws rule-8 ws "}"
+rule-10 ::= "\"" char{1,240} "\""
+rule-11 ::= "[" ws (rule-10 (ws "," ws rule-10){0,29})? ws "]"
+rule-12 ::= "\"" char{1,1000} "\""
+rule-13 ::= "[" ws (rule-12 (ws "," ws rule-12){0,9999})? ws "]"
+rule-14 ::= "\"" char{0,4000} "\""
+rule-15 ::= "[" ws (rule-14 (ws "," ws rule-14){0,29})? ws "]"
+rule-16 ::= "\"" char{0,4000} "\""
+rule-17 ::= "[" ws (rule-16 (ws "," ws rule-16){0,9999})? ws "]"
+rule-18 ::= "{" ws "\"schema\"" ws ":" ws "\"planfile.ticket-proposal.v1\"" ws "," ws "\"proposal_id\"" ws ":" ws rule-1 ws "," ws "\"dedupe_key\"" ws ":" ws rule-2 ws "," ws "\"name\"" ws ":" ws rule-3 ws "," ws "\"description\"" ws ":" ws rule-4 ws "," ws "\"priority\"" ws ":" ws rule-5 ws "," ws "\"source\"" ws ":" ws rule-9 ws "," ws "\"labels\"" ws ":" ws rule-11 ws "," ws "\"files\"" ws ":" ws rule-13 ws "," ws "\"acceptance_criteria\"" ws ":" ws rule-15 ws "," ws "\"evidence_refs\"" ws ":" ws rule-17 ws "}"
+ws ::= [ \t\n\r]*
+char ::= [^"\\\x00-\x1F] | "\\" (["\\/bfnrt] | "u" [0-9a-fA-F]{4})
+uint ::= "0" | [1-9] [0-9]{0,9}
+confidence ::= "0" ("." [0-9]{1,8})? | "1" ("." "0"{1,8})?

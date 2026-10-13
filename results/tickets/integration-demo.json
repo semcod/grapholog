@@ -1,0 +1,28 @@
+{
+  "projects": 4,
+  "targets": [
+    {
+      "name": "shared-keys",
+      "project": "shared",
+      "path": "src",
+      "action": "extend"
+    },
+    {
+      "name": "shared-python-41ab7454ed47",
+      "project": "shared",
+      "path": "packages/shared-python-41ab7454ed47",
+      "action": "create"
+    }
+  ],
+  "tasks": 10,
+  "created_first_run": 10,
+  "created_second_run": 0,
+  "reused_second_run": 10,
+  "runnable_stages": [
+    "design",
+    "design"
+  ],
+  "source_code_changed": false,
+  "github_called": false,
+  "model_called": false
+}

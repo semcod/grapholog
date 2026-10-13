@@ -1,0 +1,362 @@
+{
+  "correctness": {
+    "fixture_files": 29,
+    "expected_cases": 30,
+    "case_failures": {
+      "python": [],
+      "rust": []
+    },
+    "inventory_equal": true,
+    "shared_parser_files": 17,
+    "shared_fields_checked": [
+      "sha256",
+      "syntax_hash",
+      "shape_hash",
+      "fingerprints",
+      "nodes",
+      "symbols",
+      "imports",
+      "calls",
+      "logic"
+    ],
+    "shared_differences": [],
+    "status_differences": [
+      {
+        "path": "paren.py",
+        "python": "syntax-equal",
+        "rust": "changed"
+      },
+      {
+        "path": "quote.py",
+        "python": "syntax-equal",
+        "rust": "changed"
+      }
+    ],
+    "cycles_equal": true,
+    "cycles": [
+      [
+        "cycle/a.js",
+        "cycle/b.js"
+      ]
+    ],
+    "dependencies_equal": true
+  },
+  "benchmarks": [
+    {
+      "modules_per_project": 10,
+      "files_per_project": 30,
+      "bytes_per_project": 2660,
+      "repeats": 7,
+      "samples": {
+        "python": [
+          {
+            "wall_seconds": 0.08992852,
+            "peak_rss_kib": 18044,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.094053087,
+            "peak_rss_kib": 17588,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.097713403,
+            "peak_rss_kib": 17916,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.096261435,
+            "peak_rss_kib": 17944,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.090626221,
+            "peak_rss_kib": 17576,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.094583977,
+            "peak_rss_kib": 17628,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.095372656,
+            "peak_rss_kib": 17636,
+            "exit_code": 0
+          }
+        ],
+        "rust": [
+          {
+            "wall_seconds": 0.012093658,
+            "peak_rss_kib": 5832,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.013383552,
+            "peak_rss_kib": 5908,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.015494108,
+            "peak_rss_kib": 5736,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.012524867,
+            "peak_rss_kib": 5880,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.011940987,
+            "peak_rss_kib": 5860,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.011231518,
+            "peak_rss_kib": 5908,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.013794652,
+            "peak_rss_kib": 5836,
+            "exit_code": 0
+          }
+        ]
+      },
+      "summary": {
+        "python": {
+          "median_seconds": 0.094583977,
+          "min_seconds": 0.08992852,
+          "max_seconds": 0.097713403,
+          "iqr_seconds": 0.0056352139999999995,
+          "median_peak_rss_mib": 17.22265625
+        },
+        "rust": {
+          "median_seconds": 0.012524867,
+          "min_seconds": 0.011231518,
+          "max_seconds": 0.015494108,
+          "iqr_seconds": 0.0018536649999999991,
+          "median_peak_rss_mib": 5.72265625
+        }
+      },
+      "output_mismatch_fields": [],
+      "speedup": 7.551695119796482
+    },
+    {
+      "modules_per_project": 100,
+      "files_per_project": 300,
+      "bytes_per_project": 26960,
+      "repeats": 7,
+      "samples": {
+        "python": [
+          {
+            "wall_seconds": 0.488398603,
+            "peak_rss_kib": 34444,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.454066269,
+            "peak_rss_kib": 34088,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.446807158,
+            "peak_rss_kib": 34400,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.499179829,
+            "peak_rss_kib": 34440,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.512551528,
+            "peak_rss_kib": 34140,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.448677687,
+            "peak_rss_kib": 34324,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.458243045,
+            "peak_rss_kib": 34052,
+            "exit_code": 0
+          }
+        ],
+        "rust": [
+          {
+            "wall_seconds": 0.113088632,
+            "peak_rss_kib": 21008,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.107776706,
+            "peak_rss_kib": 20984,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.102013395,
+            "peak_rss_kib": 20984,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.103890499,
+            "peak_rss_kib": 20840,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.108794906,
+            "peak_rss_kib": 20964,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.098179596,
+            "peak_rss_kib": 20936,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.097243786,
+            "peak_rss_kib": 20936,
+            "exit_code": 0
+          }
+        ]
+      },
+      "summary": {
+        "python": {
+          "median_seconds": 0.458243045,
+          "min_seconds": 0.446807158,
+          "max_seconds": 0.512551528,
+          "iqr_seconds": 0.05050214200000003,
+          "median_peak_rss_mib": 33.51953125
+        },
+        "rust": {
+          "median_seconds": 0.103890499,
+          "min_seconds": 0.097243786,
+          "max_seconds": 0.113088632,
+          "iqr_seconds": 0.010615310000000003,
+          "median_peak_rss_mib": 20.47265625
+        }
+      },
+      "output_mismatch_fields": [],
+      "speedup": 4.410827259574526
+    },
+    {
+      "modules_per_project": 500,
+      "files_per_project": 1500,
+      "bytes_per_project": 136560,
+      "repeats": 7,
+      "samples": {
+        "python": [
+          {
+            "wall_seconds": 2.379444867,
+            "peak_rss_kib": 109688,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.196011711,
+            "peak_rss_kib": 109688,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.266294423,
+            "peak_rss_kib": 109672,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.246319996,
+            "peak_rss_kib": 109240,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.229292087,
+            "peak_rss_kib": 109584,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.234741605,
+            "peak_rss_kib": 109552,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.141339271,
+            "peak_rss_kib": 109640,
+            "exit_code": 0
+          }
+        ],
+        "rust": [
+          {
+            "wall_seconds": 0.56949021,
+            "peak_rss_kib": 83304,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.573402306,
+            "peak_rss_kib": 83476,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.551920759,
+            "peak_rss_kib": 83448,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.534686368,
+            "peak_rss_kib": 83268,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.523840227,
+            "peak_rss_kib": 83392,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.522101446,
+            "peak_rss_kib": 83268,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.507581453,
+            "peak_rss_kib": 83428,
+            "exit_code": 0
+          }
+        ]
+      },
+      "summary": {
+        "python": {
+          "median_seconds": 2.234741605,
+          "min_seconds": 2.141339271,
+          "max_seconds": 2.379444867,
+          "iqr_seconds": 0.07028271200000002,
+          "median_peak_rss_mib": 107.0703125
+        },
+        "rust": {
+          "median_seconds": 0.534686368,
+          "min_seconds": 0.507581453,
+          "max_seconds": 0.573402306,
+          "iqr_seconds": 0.04738876400000003,
+          "median_peak_rss_mib": 81.4375
+        }
+      },
+      "output_mismatch_fields": [],
+      "speedup": 4.179537274082888
+    }
+  ],
+  "environment": {
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "cpu_count": 9,
+    "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+    "packages": {
+      "tree-sitter": "0.25.2",
+      "tree-sitter-javascript": "0.25.0",
+      "tree-sitter-typescript": "0.23.2",
+      "tree-sitter-php": "0.24.1",
+      "tree-sitter-bash": "0.25.1"
+    },
+    "method": "Sequential alternating order; 1 warmup per engine; end-to-end CLI diff + JSON to /dev/null; warm filesystem cache; release Rust; single CPU affinity; no compile time.",
+    "rust_binary_sha256": "852051050005b0810ae89e42c12424d2dfd00fb7d23d3f5db17bc83452e000bb",
+    "pinned_cpu": 0
+  }
+}

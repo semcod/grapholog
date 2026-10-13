@@ -1,0 +1,651 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:grapholog:extraction-plan:v1",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "grapholog.extraction-plan.v1"
+    },
+    "plan_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "plan_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "config": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "const": "grapholog.extraction-config.v1"
+        },
+        "coordinator": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "queue": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]{0,79}$"
+        },
+        "new_package_project": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "new_package_directory": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "include_tests": {
+          "type": "boolean"
+        },
+        "include_shape": {
+          "type": "boolean"
+        },
+        "max_groups": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "packages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]{0,79}$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "project": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              "language": {
+                "type": "string",
+                "enum": [
+                  "python",
+                  "javascript",
+                  "typescript",
+                  "tsx",
+                  "php",
+                  "bash"
+                ]
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "package",
+                  "artifact"
+                ]
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "project",
+              "path",
+              "language",
+              "kind"
+            ]
+          },
+          "maxItems": 1000
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "package_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]{0,79}$"
+              },
+              "language": {
+                "type": "string",
+                "enum": [
+                  "python",
+                  "javascript",
+                  "typescript",
+                  "tsx",
+                  "php",
+                  "bash"
+                ]
+              },
+              "path_glob": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              "symbol_glob": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "package_id",
+              "language",
+              "path_glob",
+              "symbol_glob"
+            ]
+          },
+          "maxItems": 1000
+        },
+        "repositories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "project": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "github": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "project",
+              "github"
+            ]
+          },
+          "maxItems": 1000
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "coordinator"
+      ]
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "project": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "python",
+              "javascript",
+              "typescript",
+              "tsx",
+              "php",
+              "bash"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "package",
+              "artifact"
+            ]
+          },
+          "action": {
+            "enum": [
+              "create",
+              "extend"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "project",
+          "path",
+          "language",
+          "kind",
+          "action"
+        ]
+      },
+      "maxItems": 1000
+    },
+    "families": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "group_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^g_[0-9a-f]{32}$"
+            },
+            "maxItems": 1000
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "python",
+              "javascript",
+              "typescript",
+              "tsx",
+              "php",
+              "bash"
+            ]
+          },
+          "match": {
+            "enum": [
+              "function-body",
+              "function-shape"
+            ]
+          },
+          "selection": {
+            "enum": [
+              "new-package",
+              "existing-code",
+              "explicit-route",
+              "ambiguous"
+            ]
+          },
+          "target_id": {
+            "type": "string",
+            "maxLength": 4000
+          },
+          "candidate_targets": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "maxItems": 1000
+          },
+          "occurrence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^s_[0-9a-f]{32}$"
+            },
+            "maxItems": 10000
+          },
+          "review_required": {
+            "const": true
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "group_ids",
+          "language",
+          "match",
+          "selection",
+          "target_id",
+          "candidate_targets",
+          "occurrence_ids",
+          "review_required"
+        ]
+      },
+      "maxItems": 1000
+    },
+    "occurrences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^s_[0-9a-f]{32}$"
+          },
+          "project": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "line": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "end_line": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "body_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "shape_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "project",
+          "path",
+          "sha256",
+          "name",
+          "line",
+          "end_line",
+          "body_hash",
+          "shape_hash",
+          "role"
+        ]
+      },
+      "maxItems": 100000
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^gt_[0-9a-f]{32}$"
+          },
+          "stage": {
+            "enum": [
+              "route-review",
+              "design",
+              "package",
+              "verify",
+              "migrate",
+              "validate"
+            ]
+          },
+          "project": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "target_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "maxItems": 1000
+          },
+          "family_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "maxItems": 1000
+          },
+          "group_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^g_[0-9a-f]{32}$"
+            },
+            "maxItems": 1000
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^s_[0-9a-f]{32}$"
+            },
+            "maxItems": 10000
+          },
+          "depends_on": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^gt_[0-9a-f]{32}$"
+            },
+            "maxItems": 10000
+          },
+          "input_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "result_path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "proposal": {
+            "type": "object",
+            "properties": {
+              "schema": {
+                "const": "planfile.ticket-proposal.v1"
+              },
+              "proposal_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "dedupe_key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "name": {
+                "type": "string",
+                "maxLength": 4000
+              },
+              "description": {
+                "type": "string",
+                "maxLength": 100000
+              },
+              "priority": {
+                "enum": [
+                  "critical",
+                  "high",
+                  "normal",
+                  "low"
+                ]
+              },
+              "source": {
+                "type": "object",
+                "properties": {
+                  "tool": {
+                    "const": "grapholog"
+                  },
+                  "tool_version": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "finding_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 240
+                  },
+                  "artifact_digest": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "tool",
+                  "tool_version",
+                  "finding_id",
+                  "artifact_digest"
+                ]
+              },
+              "labels": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 240
+                },
+                "maxItems": 30
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1000
+                },
+                "maxItems": 10000
+              },
+              "acceptance_criteria": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 4000
+                },
+                "maxItems": 30
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 4000
+                },
+                "maxItems": 10000
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "schema",
+              "proposal_id",
+              "dedupe_key",
+              "name",
+              "description",
+              "priority",
+              "source",
+              "labels",
+              "files",
+              "acceptance_criteria",
+              "evidence_refs"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "key",
+          "stage",
+          "project",
+          "target_ids",
+          "family_ids",
+          "group_ids",
+          "evidence_ids",
+          "depends_on",
+          "input_digest",
+          "result_path",
+          "proposal"
+        ]
+      },
+      "maxItems": 10000
+    },
+    "selection": {
+      "type": "object",
+      "properties": {
+        "available_groups": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "selected_families": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "omitted_groups": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "skipped_test_occurrences": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "available_groups",
+        "selected_families",
+        "omitted_groups",
+        "skipped_test_occurrences"
+      ]
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 4000
+      },
+      "maxItems": 30
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "plan_id",
+    "plan_hash",
+    "snapshot_id",
+    "config",
+    "targets",
+    "families",
+    "occurrences",
+    "tasks",
+    "selection",
+    "limitations"
+  ]
+}

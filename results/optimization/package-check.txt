@@ -1,0 +1,6 @@
+Wheel 0.2.0 installed offline in a clean virtual environment without parser dependencies.
+grapholog --version = 0.2.0
+Rust JSON -> installed grapholog-llm prepare -> validate: passed.
+Example reply was hand-written, not produced by an LLM; validation checks references only.
+Standalone pyz from /tmp: valid diff JSON and --check exit 1.
+Packaged native binary SHA-256 equals the benchmark binary.

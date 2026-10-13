@@ -1,0 +1,172 @@
+{
+  "schema": "grapholog.ticket-status.v1",
+  "plan_id": "extraction-23741835565a34d9c9dd4ae5",
+  "tickets": [
+    {
+      "task_key": "gt_64396735e1336875f8638bd01a4d9df6",
+      "project": "shared",
+      "ticket_id": "PLF-001",
+      "stage": "design",
+      "status": "open",
+      "dependency_reasons": [],
+      "result_valid": false,
+      "result_reason": "ticket:open",
+      "runnable": true,
+      "skip_reason": "",
+      "github": {}
+    },
+    {
+      "task_key": "gt_3eeb07f7c03ab838cd204cfa0c9249b3",
+      "project": "shared",
+      "ticket_id": "PLF-002",
+      "stage": "package",
+      "status": "open",
+      "dependency_reasons": [
+        "gt_64396735e1336875f8638bd01a4d9df6:ticket:open"
+      ],
+      "result_valid": false,
+      "result_reason": "ticket:open",
+      "runnable": false,
+      "skip_reason": "waiting:grapholog-dependencies",
+      "github": {}
+    },
+    {
+      "task_key": "gt_909660254d0004dc53a9eaa5b6f88221",
+      "project": "shared",
+      "ticket_id": "PLF-003",
+      "stage": "verify",
+      "status": "open",
+      "dependency_reasons": [
+        "gt_3eeb07f7c03ab838cd204cfa0c9249b3:ticket:open",
+        "gt_3eeb07f7c03ab838cd204cfa0c9249b3:ancestor-not-verified"
+      ],
+      "result_valid": false,
+      "result_reason": "ticket:open",
+      "runnable": false,
+      "skip_reason": "waiting:grapholog-dependencies",
+      "github": {}
+    },
+    {
+      "task_key": "gt_82ead9eb5fb5b17d5814b04e925d7eb8",
+      "project": "shared",
+      "ticket_id": "PLF-004",
+      "stage": "design",
+      "status": "open",
+      "dependency_reasons": [],
+      "result_valid": false,
+      "result_reason": "ticket:open",
+      "runnable": true,
+      "skip_reason": "",
+      "github": {}
+    },
+    {
+      "task_key": "gt_e0059545fe40fbfde9a5b6b602eb2837",
+      "project": "shared",
+      "ticket_id": "PLF-005",
+      "stage": "package",
+      "status": "open",
+      "dependency_reasons": [
+        "gt_82ead9eb5fb5b17d5814b04e925d7eb8:ticket:open"
+      ],
+      "result_valid": false,
+      "result_reason": "ticket:open",
+      "runnable": false,
+      "skip_reason": "waiting:grapholog-dependencies",
+      "github": {}
+    },
+    {
+      "task_key": "gt_7f273b9705fd0cbf83f09cd0b7313f9d",
+      "project": "shared",
+      "ticket_id": "PLF-006",
+      "stage": "verify",
+      "status": "open",
+      "dependency_reasons": [
+        "gt_e0059545fe40fbfde9a5b6b602eb2837:ticket:open",
+        "gt_e0059545fe40fbfde9a5b6b602eb2837:ancestor-not-verified"
+      ],
+      "result_valid": false,
+      "result_reason": "ticket:open",
+      "runnable": false,
+      "skip_reason": "waiting:grapholog-dependencies",
+      "github": {}
+    },
+    {
+      "task_key": "gt_186182e33693ea91e55b44ce5ea7e4a7",
+      "project": "analytics",
+      "ticket_id": "PLF-001",
+      "stage": "migrate",
+      "status": "open",
+      "dependency_reasons": [
+        "gt_7f273b9705fd0cbf83f09cd0b7313f9d:ticket:open",
+        "gt_909660254d0004dc53a9eaa5b6f88221:ticket:open",
+        "gt_7f273b9705fd0cbf83f09cd0b7313f9d:ancestor-not-verified",
+        "gt_909660254d0004dc53a9eaa5b6f88221:ancestor-not-verified"
+      ],
+      "result_valid": false,
+      "result_reason": "ticket:open",
+      "runnable": false,
+      "skip_reason": "waiting:grapholog-dependencies",
+      "github": {}
+    },
+    {
+      "task_key": "gt_d1b0d792c275c7b3ebc3493cf1d09231",
+      "project": "billing",
+      "ticket_id": "PLF-001",
+      "stage": "migrate",
+      "status": "open",
+      "dependency_reasons": [
+        "gt_7f273b9705fd0cbf83f09cd0b7313f9d:ticket:open",
+        "gt_909660254d0004dc53a9eaa5b6f88221:ticket:open",
+        "gt_7f273b9705fd0cbf83f09cd0b7313f9d:ancestor-not-verified",
+        "gt_909660254d0004dc53a9eaa5b6f88221:ancestor-not-verified"
+      ],
+      "result_valid": false,
+      "result_reason": "ticket:open",
+      "runnable": false,
+      "skip_reason": "waiting:grapholog-dependencies",
+      "github": {}
+    },
+    {
+      "task_key": "gt_464b91c752cb979c1bbe289115e6e0e8",
+      "project": "orders",
+      "ticket_id": "PLF-001",
+      "stage": "migrate",
+      "status": "open",
+      "dependency_reasons": [
+        "gt_7f273b9705fd0cbf83f09cd0b7313f9d:ticket:open",
+        "gt_909660254d0004dc53a9eaa5b6f88221:ticket:open",
+        "gt_7f273b9705fd0cbf83f09cd0b7313f9d:ancestor-not-verified",
+        "gt_909660254d0004dc53a9eaa5b6f88221:ancestor-not-verified"
+      ],
+      "result_valid": false,
+      "result_reason": "ticket:open",
+      "runnable": false,
+      "skip_reason": "waiting:grapholog-dependencies",
+      "github": {}
+    },
+    {
+      "task_key": "gt_ec3d84f138282a8b71ae8aece3431de3",
+      "project": "shared",
+      "ticket_id": "PLF-007",
+      "stage": "validate",
+      "status": "open",
+      "dependency_reasons": [
+        "gt_186182e33693ea91e55b44ce5ea7e4a7:ticket:open",
+        "gt_464b91c752cb979c1bbe289115e6e0e8:ticket:open",
+        "gt_7f273b9705fd0cbf83f09cd0b7313f9d:ticket:open",
+        "gt_909660254d0004dc53a9eaa5b6f88221:ticket:open",
+        "gt_d1b0d792c275c7b3ebc3493cf1d09231:ticket:open",
+        "gt_186182e33693ea91e55b44ce5ea7e4a7:ancestor-not-verified",
+        "gt_464b91c752cb979c1bbe289115e6e0e8:ancestor-not-verified",
+        "gt_7f273b9705fd0cbf83f09cd0b7313f9d:ancestor-not-verified",
+        "gt_909660254d0004dc53a9eaa5b6f88221:ancestor-not-verified",
+        "gt_d1b0d792c275c7b3ebc3493cf1d09231:ancestor-not-verified"
+      ],
+      "result_valid": false,
+      "result_reason": "ticket:open",
+      "runnable": false,
+      "skip_reason": "waiting:grapholog-dependencies",
+      "github": {}
+    }
+  ]
+}

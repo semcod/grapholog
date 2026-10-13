@@ -1,0 +1,13 @@
+{
+  "claims": [
+    {
+      "kind": "fact",
+      "summary": "Raport klasyfikuje parę None / added.txt jako added.",
+      "evidence_ids": [
+        "E00001"
+      ],
+      "confidence": 1.0,
+      "suggested_test": "Sprawdzić odpowiednią parę i pliki w raporcie."
+    }
+  ]
+}

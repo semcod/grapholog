@@ -1,0 +1,10 @@
+{
+  "schema": "grapholog.filter-policy.v1",
+  "name": "logic-v2",
+  "source_extensions": ["py", "pyi", "js", "mjs", "cjs", "jsx", "ts", "mts", "cts", "tsx", "php", "phtml", "sh", "bash"],
+  "unsupported_extensions": ["rs", "go", "java", "kt", "kts", "c", "h", "cc", "cpp", "hpp", "cs", "rb", "swift", "scala", "lua", "ex", "exs", "sql", "vue", "svelte"],
+  "context_names": ["package.json", "pyproject.toml", "Cargo.toml", "composer.json", "go.mod", "pom.xml", "build.gradle", "CMakeLists.txt", "Makefile", "Dockerfile", "requirements.txt", "setup.cfg", "LICENSE", "LICENSE.txt", "LICENSE.md", "COPYING", "NOTICE"],
+  "prune_directories": ["generated", "gen", ".cache", ".idea", ".vscode", ".gradle", ".nuxt", ".svelte-kit", "htmlcov", "site-packages", ".planfile", ".koru", ".grapholog-artifacts", ".worktrees", ".subactor", ".playwright-browsers", ".pytest_tmp"],
+  "generated_globs": ["*.min.js", "*.min.css", "*.map", "*_pb2.py", "*_pb2_grpc.py", "*.pb.go", "*.generated.*", "*.g.cs"],
+  "notes": ["Explicitly declared profile, not a proof that excluded data cannot influence behavior.", "Tests remain included as potential evidence. Manifests and licenses remain context.", "Extensionless executable files remain eligible for shebang detection.", "Unsupported source languages are reported as exclusions; they are not counted as analyzed."]
+}

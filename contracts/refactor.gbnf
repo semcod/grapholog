@@ -1,0 +1,20 @@
+# Grapholog canonical JSON; always apply JSON Schema and reference validation.
+root ::= rule-14 ws
+rule-1 ::= "\"" char{0,256} "\""
+rule-2 ::= "\"" char{0,256} "\""
+rule-3 ::= "\"extract_library\"" | "\"parameterize\"" | "\"keep_local\"" | "\"needs_review\""
+rule-4 ::= "\"" char{0,120} "\""
+rule-5 ::= "\"" char{1,3000} "\""
+rule-6 ::= "\"" char{0,256} "\""
+rule-7 ::= "[" ws rule-6 (ws "," ws rule-6){0,39} ws "]"
+rule-8 ::= "\"" char{1,1000} "\""
+rule-9 ::= "[" ws rule-8 (ws "," ws rule-8){0,9} ws "]"
+rule-10 ::= "\"" char{1,1000} "\""
+rule-11 ::= "[" ws rule-10 (ws "," ws rule-10){0,9} ws "]"
+rule-12 ::= "{" ws "\"group_id\"" ws ":" ws rule-2 ws "," ws "\"decision\"" ws ":" ws rule-3 ws "," ws "\"library_name\"" ws ":" ws rule-4 ws "," ws "\"rationale\"" ws ":" ws rule-5 ws "," ws "\"evidence_ids\"" ws ":" ws rule-7 ws "," ws "\"risks\"" ws ":" ws rule-9 ws "," ws "\"tests\"" ws ":" ws rule-11 ws "," ws "\"confidence\"" ws ":" ws confidence ws "}"
+rule-13 ::= "[" ws (rule-12 (ws "," ws rule-12){0,9})? ws "]"
+rule-14 ::= "{" ws "\"schema\"" ws ":" ws "\"grapholog.refactor-proposals.v1\"" ws "," ws "\"snapshot_id\"" ws ":" ws rule-1 ws "," ws "\"recommendations\"" ws ":" ws rule-13 ws "}"
+ws ::= [ \t\n\r]*
+char ::= [^"\\\x00-\x1F] | "\\" (["\\/bfnrt] | "u" [0-9a-fA-F]{4})
+uint ::= "0" | [1-9] [0-9]{0,9}
+confidence ::= "0" ("." [0-9]{1,8})? | "1" ("." "0"{1,8})?

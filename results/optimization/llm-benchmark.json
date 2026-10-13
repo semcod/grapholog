@@ -1,0 +1,104 @@
+{
+  "method": "Sequential CLI read+prepare 6000 evidence candidates, 40000 character budget, warmup, single CPU, alternate order. Output selection differs intentionally. No LLM calls.",
+  "cpu": 0,
+  "samples": {
+    "0.1": [
+      {
+        "wall_seconds": 1.309399926,
+        "peak_rss_kib": 21388,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 1.143532805,
+        "peak_rss_kib": 21392,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 1.098776486,
+        "peak_rss_kib": 21384,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 1.14322993,
+        "peak_rss_kib": 21388,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 1.128976875,
+        "peak_rss_kib": 21392,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 1.150848473,
+        "peak_rss_kib": 21392,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 1.247313662,
+        "peak_rss_kib": 21388,
+        "exit_code": 0
+      }
+    ],
+    "0.2": [
+      {
+        "wall_seconds": 0.130836735,
+        "peak_rss_kib": 21900,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 0.180144824,
+        "peak_rss_kib": 21896,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 0.125010875,
+        "peak_rss_kib": 21900,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 0.129671248,
+        "peak_rss_kib": 21900,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 0.132019638,
+        "peak_rss_kib": 21900,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 0.134877033,
+        "peak_rss_kib": 21904,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 0.158080969,
+        "peak_rss_kib": 21904,
+        "exit_code": 0
+      }
+    ]
+  },
+  "details": {
+    "0.1": {
+      "selected_records": 203,
+      "omitted_records": 5797,
+      "message_characters": 34318,
+      "report_sha256": "288d59f822e511ddfb93f24a434404af42ddbb09140da319fbac3358620bc48b"
+    },
+    "0.2": {
+      "selected_records": 190,
+      "omitted_records": 5810,
+      "message_characters": 39989,
+      "report_sha256": "288d59f822e511ddfb93f24a434404af42ddbb09140da319fbac3358620bc48b"
+    }
+  },
+  "summary": {
+    "0.1": {
+      "median_seconds": 1.143532805,
+      "median_peak_rss_mib": 20.88671875
+    },
+    "0.2": {
+      "median_seconds": 0.132019638,
+      "median_peak_rss_mib": 21.38671875
+    }
+  }
+}

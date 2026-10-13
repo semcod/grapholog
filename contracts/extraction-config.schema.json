@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:grapholog:extraction-config:v1",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "grapholog.extraction-config.v1"
+    },
+    "coordinator": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "queue": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,79}$"
+    },
+    "new_package_project": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "new_package_directory": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "include_tests": {
+      "type": "boolean"
+    },
+    "include_shape": {
+      "type": "boolean"
+    },
+    "max_groups": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 500
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,79}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "project": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "python",
+              "javascript",
+              "typescript",
+              "tsx",
+              "php",
+              "bash"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "package",
+              "artifact"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "project",
+          "path",
+          "language",
+          "kind"
+        ]
+      },
+      "maxItems": 1000
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "package_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]{0,79}$"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "python",
+              "javascript",
+              "typescript",
+              "tsx",
+              "php",
+              "bash"
+            ]
+          },
+          "path_glob": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "symbol_glob": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "package_id",
+          "language",
+          "path_glob",
+          "symbol_glob"
+        ]
+      },
+      "maxItems": 1000
+    },
+    "repositories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "github": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "project",
+          "github"
+        ]
+      },
+      "maxItems": 1000
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "coordinator"
+  ]
+}

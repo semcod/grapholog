@@ -1,0 +1,124 @@
+"""Generate the 0.4 Polish release report from saved multi-project measurements."""
+from pathlib import Path
+import html
+import json
+
+ROOT=Path(__file__).resolve().parents[1]
+data=json.loads((ROOT/'results/workspace/benchmark.json').read_text())
+labels={'python-off':'Python · bez cache','python-warm':'Python · rozgrzany cache',
+        'rust-off':'Rust · 1 worker · bez cache','rust-warm':'Rust · 1 worker · rozgrzany cache',
+        'rust-jobs4-warm':'Rust · 4 workery · rozgrzany cache'}
+def num(x,n=3):return f'{x:.{n}f}'.replace('.',',')
+rows=[]
+for key,s in data['summary'].items():
+    rows.append(f'<tr><td>{labels[key]}</td><td>{num(s["median_seconds"])}</td><td>{num(s["min_seconds"])}–{num(s["max_seconds"])}</td><td>{num(s["median_wait4_peak_rss_mib"],1)}</td></tr>')
+queries=[x['median'] for x in data['query_latency_ms'].values()]
+counts=data['checks']['rust-warm']['counts']
+source=ROOT/'results/workspace/grammar-validation.json'
+grammar=json.loads(source.read_text())
+style='''
+:root{color-scheme:light;--ink:#182e42;--muted:#52697b;--line:#d5e2ea;--accent:#1766b4}*{box-sizing:border-box}body{margin:0;background:#f0f5f8;color:var(--ink);font:16px/1.62 system-ui,sans-serif}main{max-width:1120px;margin:30px auto;padding:46px 50px;background:white;border:1px solid var(--line);border-radius:12px}.tag{font-weight:700;font-size:12px;letter-spacing:2px;color:var(--accent)}h1{font-size:37px;line-height:1.15;letter-spacing:-.8px;margin:14px 0 20px}h2{font-size:24px;margin-top:40px;padding-top:22px;border-top:1px solid var(--line)}h3{font-size:18px;margin:26px 0 10px}.lead{font-size:20px}.muted,small{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.metric{border:1px solid var(--line);padding:17px;border-radius:8px}.metric strong{font-size:30px;display:block;color:var(--accent)}.table{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px}th{text-align:left;background:#edf4f9}td,th{padding:11px;border-bottom:1px solid var(--line);vertical-align:top}td:nth-child(n+2){font-variant-numeric:tabular-nums}.note{background:#edf6fd;padding:17px 20px;border-left:4px solid var(--accent);margin:22px 0}.equation,pre{background:#f3f6f8;padding:16px 19px;border-radius:6px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.65}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.91em}a{color:#1766a7}li{margin:7px 0}footer{border-top:1px solid var(--line);padding-top:20px;margin-top:38px;color:var(--muted);font-size:13px}@media(max-width:760px){main{margin:0;padding:25px 18px;border:0;border-radius:0}.grid{grid-template-columns:1fr}h1{font-size:29px}}@media print{main{padding:12px;margin:0;border:0}body{background:white}h2,h3{break-after:avoid}tr,.metric,pre{break-inside:avoid}}
+'''
+report=f'''<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Grapholog 0.4 — wiele projektów i kontrakty LLM</title><style>{style}</style></head><body><main>
+<div class="tag">GRAPHOLOG 0.4.0 / 1 PAŹDZIERNIKA 2026</div><h1>Wspólna logika w setkach projektów</h1>
+<p class="lead">Grapholog ma teraz globalny indeks projektów, grupy powtarzających się funkcji, audyt filtrowania i pakiety dowodów do oceny wydzielenia biblioteki. CLI, MCP, REST i gRPC korzystają z jednej warstwy zapytań i tych samych kontraktów.</p>
+<div class="grid"><div class="metric"><strong>200 projektów</strong>14 800 plików fizycznych w korpusie testowym</div><div class="metric"><strong>23 grupy</strong>22 grupy zgodnej składni i 1 grupa po normalizacji nazw; zgodny skład w obu silnikach</div><div class="metric"><strong>{num(data['summary']['rust-warm']['median_seconds'],2)} s</strong>mediana pełnego indeksowania; parser Rust, jeden worker, rozgrzany cache</div></div>
+<p class="muted">Korpus jest syntetyczny i zawiera JS/TS, dane, pliki generowane i zależności. Wynik nie jest gwarancją dla dowolnych repozytoriów ani pomiarem jakości rekomendacji LLM.</p>
+
+<h2>Co zostało wdrożone</h2>
+<div class="table"><table><thead><tr><th>Warstwa</th><th>Działanie</th></tr></thead><tbody>
+<tr><td>Wybór projektów</td><td>Lista korzeni, jawny manifest z identyfikatorami albo odkrywanie projektów po markerach. Odrzucanie nakładających się korzeni i kolizji nazw.</td></tr>
+<tr><td>Selekcja plików</td><td>Profil <code>logic</code> wspólny dla Python/Rust: odrzucanie przed odczytem, zachowanie testów, manifestów i licencji, jawne przyczyny wykluczeń. <code>inventory</code> pozostaje dostępną alternatywą.</td></tr>
+<tr><td>Indeks</td><td>SQLite na dysku. Parsowanie jednego projektu naraz; opcjonalnie natywny Rust z workerami plików. Globalne grupowanie po odciskach zamiast porównywania wszystkich par projektów.</td></tr>
+<tr><td>Graf</td><td>Węzły projektu, pliku, symbolu, grupy klonów i nierozwiązanych zależności; krawędzie zawierania, importów, wywołań i przynależności do grupy.</td></tr>
+<tr><td>LLM</td><td>Źródła zweryfikowane SHA-256, lokalizacje, nazwy projektów, importy, struktura logiczna, wywołujący i wywołania; budżet kontekstu, wskazanie braków, schemat i GBNF wiążące propozycję z dowodami.</td></tr>
+<tr><td>Interfejsy</td><td>Rzeczywiste CLI, MCP stdio przez oficjalny SDK, lokalny REST i lokalny serwer gRPC. Wspólne operacje i walidacja wejść/wyjść.</td></tr>
+<tr><td>Wizualizacja</td><td>Samodzielny HTML z mapą SVG i filtrami; DOT, terminal oraz kompletny eksport JSON/NDJSON. Duży graf jest dostępny przez stronicowane zapytania.</td></tr>
+</tbody></table></div>
+<p>Warstwa indeksu, kontraktów i serwerów jest napisana w Pythonie. Wariant „Rust” w tym badaniu oznacza natywny parser/scanner wywoływany przez tę warstwę. Sam <code>grapholog-rs</code> nadal działa niezależnie jako scanner/diff. Nie przedstawiamy całego nowego serwera jako drugiej, niezależnej implementacji w Rust.</p>
+
+<h2>Jak zachować kontekst bez milionów połączeń</h2>
+<p>Każda grupa klonów jest osobnym węzłem połączonym z wystąpieniami funkcji. Funkcje wskazują pliki i projekty. Model może przejść od globalnego podsumowania do grupy, jej lokalizacji, otoczenia i źródeł.</p>
+<div class="equation"><code>c kopii → c krawędzi przynależności do grupy<br>Zamiast: c(c−1)/2 par kopii<br>Dla 200 kopii: 200 krawędzi zamiast 19 900 par</code></div>
+<p>Grupowanie po indeksowanych odciskach w SQLite nie wymaga kwadratowego przeglądu wszystkich par projektów. Koszt całej operacji nadal obejmuje odczyt, parsery, zapis rekordów i sortowanie/grupowanie indeksów. To nie deklaracja stałego czasu dla dowolnego wejścia.</p>
+<p><code>function-body</code> zachowuje składnię, literały, operatory i nazwy parametrów, pomijając nazwę deklaracji. <code>function-shape</code> normalizuje identyfikatory i pozostaje heurystyką. Porównujemy tylko ten sam język i parser. Małe symbole poniżej 12 węzłów są domyślnie pomijane przy budowie grup.</p>
+<p>Ranking wykorzystuje liczbę projektów oraz <code>SUM(nodes) − MAX(nodes)</code>. To miara powtarzanej składni, nie przewidywana oszczędność LOC. Zakresy zagnieżdżonych funkcji mogą się nakładać. Grupa kształtu może zawierać wystąpienia obecne także w grupach zgodnej składni.</p>
+
+<h2>Filtrowanie jest audytowalne</h2>
+<p>W korpusie 200 projektów profil wybrał <strong>4600 plików</strong>: 4200 źródeł i testów oraz 400 manifestów/licencji. Pominął 10 200 fizycznych plików według znanego generatora. Sam Grapholog zgłosił <strong>8400 wykluczonych wpisów</strong>, ponieważ odcięte katalogi liczy jako pojedyncze wpisy. Nie utożsamiamy tych dwóch liczb.</p>
+<p>Polityka znajduje się w jednym pliku <code>logic-profile.json</code>, czytanym przez Python i wbudowanym w Rust. Obejmuje typowe dane, media, minifikowane pliki, kod generowany i katalogi narzędziowe. Testy są zachowane jako przydatne dowody. <code>exclusions</code> zwraca ścieżki i powody.</p>
+<div class="note">Nie można ogólnie rozstrzygnąć po nazwie, że plik nie wpływa na logikę: JSON, YAML, SQL, szablon czy konfiguracja mogą sterować programem. Dlatego profil jest jawny, ma audyt i można przełączyć go na <code>inventory</code>. Nieobsługiwane języki nie są przedstawiane jako przeanalizowane.</div>
+
+<h2>Pomiar 200 projektów</h2>
+<div class="table"><table><thead><tr><th>Wariant</th><th>Mediana [s]</th><th>Min.–maks. [s]</th><th>wait4 peak RSS [MiB]</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div>
+<p>Pomiar obejmuje uruchomienie CLI, odkrywanie projektów, filtrowanie, odczyt i parsowanie/cache, zapis kompletnego indeksu w transakcji, powiązania i grupy. Baza jest nowa przy każdej próbie. Jeden przebieg rozgrzewkowy i trzy pomiary, kolejność wariantów rotowana. Cache systemu plików jest rozgrzany. Warianty „rozgrzany cache” mają także przygotowany cache aplikacji.</p>
+<p>Wszystkie warianty miały affinity do czterech CPU. Rust używał liczby workerów wskazanej w tabeli; Python parsował szeregowo. Szczyt RSS pochodzi z <code>wait4</code> i <strong>nie jest szczytem sumy jednoczesnej pamięci Pythona i procesów Rust</strong>. Każdy projekt uruchamia obecnie osobny proces Rust. Baza zajęła {data['checks']['rust-warm']['database_bytes']:,} bajtów.</p>
+<p>Każdy wariant zwrócił {counts['nodes']:,} węzłów i {counts['edges']:,} krawędzi. Znane oczekiwanie: dwie grupy zgodnej składni po 100 wystąpień, 20 po 200 oraz jedna grupa kształtu z 200 wystąpieniami. Składy i identyfikatory tych grup były zgodne pomiędzy silnikami i trybami cache.</p>
+<p>Zapytanie o 20 grup na już otwartym środowisku Python i zapisanej bazie miało mediany {num(min(queries),2)}–{num(max(queries),2)} ms w seriach po 15 zapytań. Obejmuje ponowne otwarcie transakcji i walidację JSON Schema; nie obejmuje uruchomienia CLI ani narzutu sieciowego transportów.</p>
+<p><strong>Wniosek pomiarowy:</strong> na tym korpusie parser Rust był szybszy, a cache pomagał obu silnikom. Cztery workery nie poprawiły mediany względem jednego przy małych plikach. Domyślnie pozostaje jeden worker. Korpus celowo powtarza niewielką liczbę wzorców, więc nie jest reprezentatywny dla setek całkowicie różnych, dużych repozytoriów.</p>
+<p class="muted">Środowisko: {html.escape(data['environment']['platform'])}; Python {html.escape(data['environment']['python'].split(' ')[0])}. Pełne próbki, checksum składu grup i hash binarki zapisano w <code>results/workspace/benchmark.json</code>.</p>
+
+<h2>Kontrakt zapytań i odpowiedzi</h2>
+<pre><code>{{"schema":"grapholog.request.v1","operation":"clones",
+ "params":{{"cross_project":true,"limit":20}}}}
+
+{{"schema":"grapholog.response.v1","snapshot_id":"SHA256…",
+ "operation":"clones","data":{{"items":[…],"offset":0,
+ "limit":20,"total":23,"truncated":true}}}}</code></pre>
+<div class="table"><table><thead><tr><th>Operacja</th><th>Cel</th></tr></thead><tbody>
+<tr><td><code>summary</code>, <code>projects</code></td><td>Rozmiar indeksu, języki/parsery, pokrycie, identyfikatory projektów.</td></tr>
+<tr><td><code>clones</code>, <code>members</code></td><td>Globalne grupy oraz strony konkretnych wystąpień; filtr projektu dostępny także w members.</td></tr>
+<tr><td><code>nodes</code>, <code>neighbors</code></td><td>Wyszukiwanie symboli/plików i sąsiedztwo grafu.</td></tr>
+<tr><td><code>exclusions</code></td><td>Audyt pominiętych wpisów i powodów.</td></tr>
+<tr><td><code>evidence</code>, <code>context</code></td><td>Dowody z lokalizacją, opcjonalne aktualne źródło oraz ograniczony pakiet dla LLM.</td></tr>
+</tbody></table></div>
+<p>Każde zapytanie widzi jeden zatwierdzony snapshot SQLite. Pełny reindeks jest transakcyjny i w razie błędu zachowuje poprzedni indeks. Czytając kilka stron, klient powinien porównać <code>snapshot_id</code> pomiędzy odpowiedziami. Zatwierdzony indeks nie jest atomowym snapshotem całego systemu plików; stabilne checkouty dają lepszą powtarzalność.</p>
+<p>JSON Schema draft 2020-12 określa dane. REST ma OpenAPI 3.1.1. MCP używa stdio, inputSchema/outputSchema i structuredContent. gRPC ma <code>Query</code> i <code>Contract</code>; protobuf przenosi UTF-8 JSON jako bytes, co zachowuje ten sam kontrakt i nie konwertuje liczb przez <code>Struct</code>.</p>
+
+<h2>GBNF i LLM: ograniczenia składni oraz dowody</h2>
+<p>Przyjęto <strong>GBNF (GGML BNF)</strong>, stosowany przez llama.cpp do ograniczania generowanego tekstu. Nie wprowadzono własnego nieustalonego formatu „GGNF”. Graf jest JSON/NDJSON; gramatyka służy do generowania zapytań i propozycji refaktoryzacji.</p>
+<p>Pakiet obejmuje nazwy projektów i pliki kontekstowe, w tym licencje, lokalizacje funkcji, SHA-256, importy, strukturę logiczną oraz przychodzące i wychodzące wywołania. Przy <code>--include-source</code> źródło musi zgadzać się z hashem indeksu. Zmieniony lub niedostępny plik otrzymuje jawny status zamiast starego wycinka.</p>
+<p>Wybór kontekstu przeplata grupy i projekty. Ominięcia są liczone, a limit znaków obejmuje oba messages i umieszczony w nich schemat. Gramatyka jest osobnym wejściem dekodera. Jest to limit znaków, nie dokładny limit tokenów. Dokładniejsze dane pobiera się przez kolejne zapytania do indeksu.</p>
+<p>Odpowiedź modelu ma decyzję <code>extract_library</code>, <code>parameterize</code>, <code>keep_local</code> lub <code>needs_review</code>, proponowaną nazwę, uzasadnienie, dowody, ryzyka, testy i niekalibrowane confidence. Walidator wiąże odpowiedź ze snapshotem oraz dozwolonymi ID; dla wydzielenia lub parametryzacji wymaga co najmniej dwóch różnych wystąpień z danej grupy.</p>
+<p>GBNF narzuca kanoniczną kolejność i komplet pól. JSON Schema akceptuje dowolną kolejność. Zakresy integer, wzorce identyfikatorów, unikalność i zależności między polami wymagają walidacji po generacji; ID pakietu są dodatkowo enumami. Walidacja referencji dotyczy dostarczonego pakietu. Przed wykonaniem przyszłej migracji trzeba sprawdzić aktualność kodu.</p>
+<div class="note"><strong>Nie wywołano żadnego modelu.</strong> Ani hash, ani GBNF, ani schemat nie dowodzą poprawności rekomendacji, czystości funkcji czy bezpieczeństwa wydzielenia biblioteki. Efekty są jawnie oznaczone jako nieznane. Program nie wykonuje proponowanej refaktoryzacji ani kodu analizowanych projektów.</div>
+
+<h2>Sprawdzenia</h2>
+<ul><li><strong>55 testów unittest i 2 natywne testy Rust</strong> zakończone powodzeniem. Obejmują poprzednie funkcje, nowe filtrowanie, grupy, cache, transakcje, źródła, limity, referencje i eksporty.</li>
+<li><strong>Rzeczywiste połączenia:</strong> CLI, HTTP REST, gRPC i klient MCP stdio zwróciły zgodną odpowiedź dla tego samego zapytania. Sprawdzono również nieprawidłowe wejścia, zasoby schematów, token i Host/Origin dla REST.</li>
+<li><strong>10 przypadków natywnego walidatora GBNF llama.cpp:</strong> poprawne zapytania/propozycja, zmyślone ID, błędna decyzja, confidence poza zakresem, brak i nadmiar pól. Bez ładowania modelu. Źródło walidatora: dystrybucja llama-cpp-python 0.3.36; SHA-256 archiwum: <code>{grammar['source_archive_sha256']}</code>.</li>
+<li><strong>HTML:</strong> wykonanie JavaScript w jsdom, utworzenie grafu SVG, filtrowanie, pusty wynik i reset wyszukiwania, wybór grupy, pełna przynależność projektów. Brak inspekcji pikselowej w przeglądarce: pobranie Chromium w tym środowisku nie powiodło się.</li>
+<li><strong>Skala:</strong> pełny benchmark 200 projektów z oczekiwanym składem grup. To test poprawności na kontrolowanych przykładach, nie pomiar ogólnej precyzji/recall na rzeczywistych repozytoriach.</li></ul>
+
+<h2>Uruchomienie</h2>
+<pre><code>python -m pip install '.[workspace,parsers,mcp,grpc]'
+chmod +x bin/grapholog-rs-linux-x86_64
+grapholog workspace index /srv/repos --discover --db /tmp/grapholog.sqlite \\
+  --engine rust --rust-bin ./bin/grapholog-rs-linux-x86_64 \\
+  --cache-dir /tmp/grapholog-cache
+grapholog workspace export --db /tmp/grapholog.sqlite --format html -o /tmp/mapa.html
+grapholog workspace query --db /tmp/grapholog.sqlite --operation clones --params '{{"limit":20}}'
+grapholog workspace context --db /tmp/grapholog.sqlite --group-id g_ID --include-source -o /tmp/context.json
+grapholog workspace validate /tmp/context.json /tmp/propozycje.json
+grapholog contracts --dir /tmp/kontrakty
+grapholog serve mcp --db /tmp/grapholog.sqlite
+grapholog serve rest --db /tmp/grapholog.sqlite --port 8765
+grapholog serve grpc --db /tmp/grapholog.sqlite --port 8766</code></pre>
+<p>REST i gRPC działają lokalnie na 127.0.0.1; opcjonalny token w <code>GRAPHOLOG_API_TOKEN</code>. Serwery czytają wybrany indeks i nie przyjmują ścieżek do nowych skanów ani komend. MCP jest implementacją stdio, bez Streamable HTTP. Nie wdrożono publicznego hostingu, TLS ani kontroli dostępu wielu użytkowników.</p>
+<p>HTML/DOT/terminal są ograniczonym widokiem: domyślnie 100 grup i 40 lokalizacji na grupę; diagram HTML pokazuje do 12 z nich. Pełna lista projektów grupy jest zachowana. Komplet węzłów i krawędzi eksportują JSON/NDJSON, a wszystkie lokalizacje udostępnia API z paginacją. Braki nie są ukrywane.</p>
+<p>Natywna binarka jest przeznaczona dla Linux x86_64/glibc. Python wheel i pyz wymagają do indeksu dodatku <code>workspace</code>, a do serwerów odpowiednich zależności. Przykładowy mały zestaw: <code>examples/workspace/projects.json</code>. Generator dużego korpusu: <code>bench/workspace_benchmark.py</code>.</p>
+
+<h2>Granice wydania i następne kroki</h2>
+<p>Obsługiwane źródła: Python, JS/JSX, TS/TSX, PHP i Bash. Rust jako język implementacji nie oznacza obsługi wejściowego <code>.rs</code>. Nie wykrywamy jeszcze dowolnych podobnych bloków wewnątrz funkcji, klonów między językami ani pełnej równoważności semantycznej. Powiązania pakietów między repozytoriami nie są automatycznie rozwiązywane; globalne połączenia są przede wszystkim grupami wspólnej składni.</p>
+<p>Kolejne uzasadnione prace to parser wejściowego Rust, jawne powiązania pakietów między projektami, przyrostowa aktualizacja grafu oraz testy na rzeczywistych repozytoriach. Obecnie cache jest przyrostowy, a indeks przebudowuje się w całości. Nie ma jeszcze automatycznego wydzielania bibliotek, watch ani rozproszonego wykonania.</p>
+
+<h2>Dokumentacja standardów i ślady pomiaru</h2>
+<ul><li><a href="https://github.com/ggml-org/llama.cpp/blob/master/grammars/README.md">llama.cpp: GBNF, JSON Schema i ograniczenia konwersji</a></li>
+<li><a href="https://json-schema.org/draft/2020-12/json-schema-validation">JSON Schema Validation 2020-12</a></li>
+<li><a href="https://modelcontextprotocol.io/specification/2025-11-25/server/tools">MCP: narzędzia i strukturalne wyniki</a>; <a href="https://modelcontextprotocol.io/specification/2025-11-25/basic/transports">transporty</a></li>
+<li><a href="https://grpc.io/docs/languages/python/quickstart/">gRPC Python: oficjalny quickstart</a>; <a href="https://spec.openapis.org/oas/v3.1.1.html">OpenAPI 3.1.1</a></li></ul>
+<p>Wszystkie kontrakty są w <code>contracts/</code>. Surowe pomiary, logi testów, kontrola GBNF, przykład LLM i mapa 200 projektów: <code>results/workspace/</code>. Literatura o klonach i poprzednie badania pozostają w raportach 0.1–0.3.</p>
+<footer>Grapholog 0.4 — pomiar inżynierski z jawnym zakresem i ograniczeniami. Format danych ma wspierać weryfikowalne decyzje człowieka i LLM; nie zastępuje oceny semantyki oraz testów migracji.</footer>
+</main></body></html>'''
+(ROOT/'RAPORT.html').write_text(report,encoding='utf-8')
+print('Wrote RAPORT.html:',len(report.encode()),'bytes')

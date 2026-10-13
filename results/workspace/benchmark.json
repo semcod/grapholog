@@ -1,0 +1,407 @@
+{
+  "environment": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "affinity": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "method": "Full CLI discovery + index transaction + clone groups. 1 warmup, rotating order. Warm OS cache. Empty new DB every sample. Warm application cache prefilled during warmup. Four-CPU affinity for all variants; jobs as named. wait4 RSS is not a simultaneous sum of Python and Rust child RSS.",
+    "rust_sha256": "b5d298e17325ebcdb881abbf316f8e3acc7eff3aa1a86791817d2b8525dcfaf3"
+  },
+  "expected": {
+    "projects": 200,
+    "physical_files": 14800,
+    "included_files": 4600,
+    "symbols": 4200,
+    "excluded_entries": 8400,
+    "function_body_groups": 22,
+    "function_shape_groups": 1
+  },
+  "samples": {
+    "python-off": [
+      {
+        "wall_seconds": 5.623887901,
+        "peak_rss_kib": 31520,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 5.130247388,
+        "peak_rss_kib": 31528,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 6.422654411,
+        "peak_rss_kib": 31528,
+        "exit_code": 0
+      }
+    ],
+    "python-warm": [
+      {
+        "wall_seconds": 4.579289476,
+        "peak_rss_kib": 29600,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 4.212691372,
+        "peak_rss_kib": 29596,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 4.439372708,
+        "peak_rss_kib": 29600,
+        "exit_code": 0
+      }
+    ],
+    "rust-off": [
+      {
+        "wall_seconds": 3.311463851,
+        "peak_rss_kib": 29772,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 3.222580061,
+        "peak_rss_kib": 29772,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 3.376802237,
+        "peak_rss_kib": 29772,
+        "exit_code": 0
+      }
+    ],
+    "rust-warm": [
+      {
+        "wall_seconds": 2.493861248,
+        "peak_rss_kib": 30116,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 2.428038108,
+        "peak_rss_kib": 30116,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 2.731778465,
+        "peak_rss_kib": 30100,
+        "exit_code": 0
+      }
+    ],
+    "rust-jobs4-warm": [
+      {
+        "wall_seconds": 2.743077259,
+        "peak_rss_kib": 30132,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 2.346572224,
+        "peak_rss_kib": 30108,
+        "exit_code": 0
+      },
+      {
+        "wall_seconds": 3.200781571,
+        "peak_rss_kib": 30268,
+        "exit_code": 0
+      }
+    ]
+  },
+  "checks": {
+    "rust-jobs4-warm": {
+      "counts": {
+        "projects": 200,
+        "files": 4600,
+        "symbols": 4200,
+        "nodes": 9223,
+        "edges": 13800,
+        "clone_groups": 23,
+        "cross_project_groups": 23,
+        "excluded_entries": 8400
+      },
+      "expected_membership_distribution": [
+        [
+          "function-body",
+          100,
+          2
+        ],
+        [
+          "function-body",
+          200,
+          20
+        ],
+        [
+          "function-shape",
+          200,
+          1
+        ]
+      ],
+      "clone_membership_sha256": "46901fd195f57a058ee23a600537f162f92ce89c801e285593d8acaa308ca2f8",
+      "database_bytes": 42323968
+    },
+    "rust-warm": {
+      "counts": {
+        "projects": 200,
+        "files": 4600,
+        "symbols": 4200,
+        "nodes": 9223,
+        "edges": 13800,
+        "clone_groups": 23,
+        "cross_project_groups": 23,
+        "excluded_entries": 8400
+      },
+      "expected_membership_distribution": [
+        [
+          "function-body",
+          100,
+          2
+        ],
+        [
+          "function-body",
+          200,
+          20
+        ],
+        [
+          "function-shape",
+          200,
+          1
+        ]
+      ],
+      "clone_membership_sha256": "46901fd195f57a058ee23a600537f162f92ce89c801e285593d8acaa308ca2f8",
+      "database_bytes": 42328064
+    },
+    "rust-off": {
+      "counts": {
+        "projects": 200,
+        "files": 4600,
+        "symbols": 4200,
+        "nodes": 9223,
+        "edges": 13800,
+        "clone_groups": 23,
+        "cross_project_groups": 23,
+        "excluded_entries": 8400
+      },
+      "expected_membership_distribution": [
+        [
+          "function-body",
+          100,
+          2
+        ],
+        [
+          "function-body",
+          200,
+          20
+        ],
+        [
+          "function-shape",
+          200,
+          1
+        ]
+      ],
+      "clone_membership_sha256": "46901fd195f57a058ee23a600537f162f92ce89c801e285593d8acaa308ca2f8",
+      "database_bytes": 42278912
+    },
+    "python-warm": {
+      "counts": {
+        "projects": 200,
+        "files": 4600,
+        "symbols": 4200,
+        "nodes": 9223,
+        "edges": 13800,
+        "clone_groups": 23,
+        "cross_project_groups": 23,
+        "excluded_entries": 8400
+      },
+      "expected_membership_distribution": [
+        [
+          "function-body",
+          100,
+          2
+        ],
+        [
+          "function-body",
+          200,
+          20
+        ],
+        [
+          "function-shape",
+          200,
+          1
+        ]
+      ],
+      "clone_membership_sha256": "46901fd195f57a058ee23a600537f162f92ce89c801e285593d8acaa308ca2f8",
+      "database_bytes": 42500096
+    },
+    "python-off": {
+      "counts": {
+        "projects": 200,
+        "files": 4600,
+        "symbols": 4200,
+        "nodes": 9223,
+        "edges": 13800,
+        "clone_groups": 23,
+        "cross_project_groups": 23,
+        "excluded_entries": 8400
+      },
+      "expected_membership_distribution": [
+        [
+          "function-body",
+          100,
+          2
+        ],
+        [
+          "function-body",
+          200,
+          20
+        ],
+        [
+          "function-shape",
+          200,
+          1
+        ]
+      ],
+      "clone_membership_sha256": "46901fd195f57a058ee23a600537f162f92ce89c801e285593d8acaa308ca2f8",
+      "database_bytes": 42455040
+    }
+  },
+  "query_latency_ms": {
+    "rust-off": {
+      "median": 9.701925000626943,
+      "max": 20.855540999036748,
+      "samples": [
+        10.05163099944184,
+        16.642401000353857,
+        9.701925000626943,
+        19.91864999945392,
+        18.56545000009646,
+        20.855540999036748,
+        12.910730998555664,
+        7.442568001351901,
+        6.624936000662274,
+        10.317792000932968,
+        6.500539000626304,
+        8.1279310015816,
+        6.275158999414998,
+        5.8097680011997,
+        5.411957001342671
+      ]
+    },
+    "rust-warm": {
+      "median": 8.37973099987721,
+      "max": 22.52535299885494,
+      "samples": [
+        9.556504999636672,
+        9.491116999924998,
+        8.671841000250424,
+        9.120538001297973,
+        8.37973099987721,
+        8.70717500038154,
+        22.52535299885494,
+        10.694308999518398,
+        6.992349999563885,
+        7.042525001452304,
+        6.434079001337523,
+        6.376000999807729,
+        6.02316900040023,
+        6.371133998982259,
+        8.33128799968108
+      ]
+    },
+    "rust-jobs4-warm": {
+      "median": 8.36702000015066,
+      "max": 13.7793869998859,
+      "samples": [
+        7.826435999959358,
+        7.556288999694516,
+        6.147575999420951,
+        11.627292999037309,
+        9.71640399984608,
+        8.36702000015066,
+        7.27995200031728,
+        7.033620999209234,
+        9.788061999643105,
+        7.437659000061103,
+        6.923984999957611,
+        9.500299000137602,
+        9.485605000008945,
+        9.66777999929036,
+        13.7793869998859
+      ]
+    },
+    "python-off": {
+      "median": 5.809676000353647,
+      "max": 11.571659000765067,
+      "samples": [
+        9.62700899981428,
+        8.596325000326033,
+        11.571659000765067,
+        10.085049998451723,
+        5.377344001317397,
+        5.563094000535784,
+        5.655503000525641,
+        5.656774999806657,
+        5.84894500025257,
+        5.949776999841561,
+        5.90769399968849,
+        5.712449001293862,
+        5.583244999797898,
+        5.65942899993388,
+        5.809676000353647
+      ]
+    },
+    "python-warm": {
+      "median": 6.657064999672002,
+      "max": 8.201563001421164,
+      "samples": [
+        7.343059000049834,
+        6.469252000897541,
+        5.80077399899892,
+        5.56046299971058,
+        6.698071998471278,
+        6.338295001114602,
+        6.732820000252104,
+        7.995021998794982,
+        8.201563001421164,
+        7.244410999192041,
+        6.657064999672002,
+        7.666716999665368,
+        6.379487000231165,
+        6.486679001682205,
+        6.629012999837869
+      ]
+    }
+  },
+  "all_engines_same_clone_memberships": true,
+  "summary": {
+    "python-off": {
+      "median_seconds": 5.623887901,
+      "min_seconds": 5.130247388,
+      "max_seconds": 6.422654411,
+      "median_wait4_peak_rss_mib": 30.7890625
+    },
+    "python-warm": {
+      "median_seconds": 4.439372708,
+      "min_seconds": 4.212691372,
+      "max_seconds": 4.579289476,
+      "median_wait4_peak_rss_mib": 28.90625
+    },
+    "rust-off": {
+      "median_seconds": 3.311463851,
+      "min_seconds": 3.222580061,
+      "max_seconds": 3.376802237,
+      "median_wait4_peak_rss_mib": 29.07421875
+    },
+    "rust-warm": {
+      "median_seconds": 2.493861248,
+      "min_seconds": 2.428038108,
+      "max_seconds": 2.731778465,
+      "median_wait4_peak_rss_mib": 29.41015625
+    },
+    "rust-jobs4-warm": {
+      "median_seconds": 2.743077259,
+      "min_seconds": 2.346572224,
+      "max_seconds": 3.200781571,
+      "median_wait4_peak_rss_mib": 29.42578125
+    }
+  }
+}

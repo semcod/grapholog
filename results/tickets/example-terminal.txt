@@ -1,0 +1,19 @@
+GRAPHOLOG WORKSPACE 0.5
+5cd4f75b55171f409310620e87c443e0dca346a19adc9d4578cc9ce5bf82e5d8
+3 projects | 15 included files | 9 symbols | 3 cross-project groups
+
+g_e10e710efec2469856bfb3e6f1c2e885 function-shape [python] projects=3 occurrences=3
+  analytics / src/keys.py:1 -> clean_key
+  orders / src/keys.py:1 -> canonical_key
+  billing / src/keys.py:1 -> normalize_key
+
+g_6af86baad277d480f598f037e07a0f58 function-shape [python] projects=3 occurrences=3
+  analytics / main.py:3 -> handle
+  orders / main.py:3 -> handle
+  billing / main.py:3 -> handle
+
+g_f9fbc347c718283e73bd3b48e66f3560 function-body [python] projects=2 occurrences=2
+  orders / src/keys.py:1 -> canonical_key
+  billing / src/keys.py:1 -> normalize_key
+
+View omitted 0 groups. JSON/NDJSON contains the complete indexed graph.

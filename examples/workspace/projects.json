@@ -1,0 +1,17 @@
+{
+  "schema": "grapholog.workspace-config.v1",
+  "projects": [
+    {
+      "id": "billing",
+      "path": "billing"
+    },
+    {
+      "id": "orders",
+      "path": "orders"
+    },
+    {
+      "id": "analytics",
+      "path": "analytics"
+    }
+  ]
+}

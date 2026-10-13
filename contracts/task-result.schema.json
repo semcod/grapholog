@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:grapholog:task-result:v1",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "grapholog.task-result.v1"
+    },
+    "task_key": {
+      "type": "string",
+      "pattern": "^gt_[0-9a-f]{32}$"
+    },
+    "input_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "outcome": {
+      "enum": [
+        "succeeded",
+        "needs_review"
+      ]
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ]
+      },
+      "maxItems": 100,
+      "minItems": 1
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "passed": {
+            "type": "boolean"
+          },
+          "evidence": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "path",
+              "sha256"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "passed",
+          "evidence"
+        ]
+      },
+      "maxItems": 100
+    },
+    "package": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "package",
+            "artifact"
+          ]
+        },
+        "exports": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "family_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "import_path": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              },
+              "symbol": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "family_id",
+              "import_path",
+              "symbol"
+            ]
+          },
+          "maxItems": 1000
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "kind",
+        "exports"
+      ]
+    },
+    "license_review": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "compatible",
+            "needs_review"
+          ]
+        },
+        "evidence": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "sha256"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "evidence"
+      ]
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 4000
+      },
+      "maxItems": 30
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "task_key",
+    "input_digest",
+    "outcome",
+    "artifacts",
+    "tests",
+    "notes"
+  ]
+}

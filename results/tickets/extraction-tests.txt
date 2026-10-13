@@ -1,0 +1,102 @@
+test_actual_koru_parser_accepts_dispatch_contract (test_extraction.ExtractionTests.test_actual_koru_parser_accepts_dispatch_contract) ... ok
+test_ambiguous_catalog_and_route_resolution (test_extraction.ExtractionTests.test_ambiguous_catalog_and_route_resolution) ... ok
+test_bounded_runner_stops_without_repeating_an_ambiguous_attempt (test_extraction.ExtractionTests.test_bounded_runner_stops_without_repeating_an_ambiguous_attempt) ... ok
+test_canceled_dependency_never_unlocks_work (test_extraction.ExtractionTests.test_canceled_dependency_never_unlocks_work) ... ok
+test_catalog_validation_and_unknown_fields (test_extraction.ExtractionTests.test_catalog_validation_and_unknown_fields) ... ok
+test_cli_plan_is_same_inert_contract (test_extraction.ExtractionTests.test_cli_plan_is_same_inert_contract) ... ok
+test_cross_project_dependencies_require_artifacts_not_done_or_cancel (test_extraction.ExtractionTests.test_cross_project_dependencies_require_artifacts_not_done_or_cancel) ... ok
+test_dispatch_does_not_treat_exit_zero_as_completion_or_retry_it (test_extraction.ExtractionTests.test_dispatch_does_not_treat_exit_zero_as_completion_or_retry_it) ... ok
+test_dispatch_timeout_records_uncertain_attempt (test_extraction.ExtractionTests.test_dispatch_timeout_records_uncertain_attempt) ... ok
+test_existing_owner_and_explicit_route (test_extraction.ExtractionTests.test_existing_owner_and_explicit_route) ... ok
+test_github_scoped_sync_dedupe_and_closed_without_receipt (test_extraction.ExtractionTests.test_github_scoped_sync_dedupe_and_closed_without_receipt) ...   ✓ Created: PLF-001 → 1
+  ✓ Created: PLF-002 → 2
+  ✓ Created: PLF-003 → 3
+  ✓ Created: PLF-004 → 4
+  ✓ Created: PLF-005 → 5
+  ✓ Created: PLF-001 → 1
+  ✓ Created: PLF-001 → 1
+  ✓ Updated: PLF-002 → 2
+  ✓ Updated: PLF-003 → 3
+  ✓ Updated: PLF-004 → 4
+  ✓ Updated: PLF-005 → 5
+  ✓ Updated: PLF-001 → 1
+  ✓ Updated: PLF-001 → 1
+  ✓ Updated: PLF-001 from 1
+  ✓ Updated: PLF-002 from 2
+  ✓ Updated: PLF-003 from 3
+  ✓ Updated: PLF-004 from 4
+  ✓ Updated: PLF-005 from 5
+
+📥 Imported 0 new tickets, updated 5 existing
+  ✓ Updated: PLF-001 from 1
+
+📥 Imported 0 new tickets, updated 1 existing
+  ✓ Updated: PLF-001 from 1
+
+📥 Imported 0 new tickets, updated 1 existing
+  ↺ Already published: PLF-001 (d5165fe3a7f8)
+  ↺ Already published: PLF-002 (3da8188788c5)
+  ↺ Already published: PLF-003 (9fd2b24b0326)
+  ↺ Already published: PLF-004 (9b6626e3214e)
+  ↺ Already published: PLF-005 (817f6af7aad2)
+  ↺ Already published: PLF-001 (c11b5dea6aef)
+  ↺ Already published: PLF-001 (2af3b4d17cb9)
+  ✓ Updated: PLF-001 from 1
+  ✓ Updated: PLF-002 from 2
+  ✓ Updated: PLF-003 from 3
+  ✓ Updated: PLF-004 from 4
+  ✓ Updated: PLF-005 from 5
+
+📥 Imported 0 new tickets, updated 5 existing
+  ✓ Updated: PLF-001 from 1
+
+📥 Imported 0 new tickets, updated 1 existing
+  ✓ Updated: PLF-001 from 1
+
+📥 Imported 0 new tickets, updated 1 existing
+ok
+test_hash_verified_artifact_handoff_to_consumer (test_extraction.ExtractionTests.test_hash_verified_artifact_handoff_to_consumer) ... ok
+test_local_idempotence_including_terminal_ticket (test_extraction.ExtractionTests.test_local_idempotence_including_terminal_ticket) ... ok
+test_new_package_overlap_and_one_migration_per_project (test_extraction.ExtractionTests.test_new_package_overlap_and_one_migration_per_project) ... ok
+test_no_remote_sync_without_explicit_repository_bindings (test_extraction.ExtractionTests.test_no_remote_sync_without_explicit_repository_bindings) ... ok
+test_partial_sync_retry_preserves_created_issue_identity (test_extraction.ExtractionTests.test_partial_sync_retry_preserves_created_issue_identity) ...   ✓ Created: PLF-001 → 1
+  ✓ Created: PLF-002 → 2
+  ✓ Created: PLF-003 → 3
+  ✓ Created: PLF-004 → 4
+  ✓ Created: PLF-005 → 5
+  ✗ Failed to sync PLF-001: simulated provider outage
+    Error details: Traceback (most recent call last):
+  File 
+"/workspace/scratch/a9449883e173/grapholog-venv/lib/python3.12/site-packages/pla
+nfile/sync/outbound.py", line 230, in sync_to_external
+    new_id, new_ticket = _create_new_ticket(
+                         ^^^^^^^^^^^^^^^^^^^
+  File 
+"/workspace/scratch/a9449883e173/grapholog-venv/lib/python3.12/site-packages/pla
+nfile/sync/operations.py", line 180, in _create_new_ticket
+    external_ticket = backend.create_ticket(
+                      ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/a9449883e173/grapholog/tests/test_extraction.py", 
+line 31, in create_ticket
+    if self.fail_create:raise RuntimeError('simulated provider outage')
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: simulated provider outage
+
+  ↺ Already published: PLF-001 (d5165fe3a7f8)
+  ✓ Updated: PLF-002 → 2
+  ✓ Updated: PLF-003 → 3
+  ✓ Updated: PLF-004 → 4
+  ✓ Updated: PLF-005 → 5
+  ✓ Created: PLF-001 → 1
+  ✓ Created: PLF-001 → 1
+  ✓ Updated: PLF-005 → 5
+ok
+test_stale_source_and_stale_snapshot_fail_before_writes (test_extraction.ExtractionTests.test_stale_source_and_stale_snapshot_fail_before_writes) ... ok
+test_tampered_plan_or_source_symlink_rejected (test_extraction.ExtractionTests.test_tampered_plan_or_source_symlink_rejected) ... ok
+test_tsx_language_can_be_planned (test_extraction.ExtractionTests.test_tsx_language_can_be_planned) ... ok
+test_verified_package_promoted_into_next_catalog (test_extraction.ExtractionTests.test_verified_package_promoted_into_next_catalog) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 6.791s
+
+OK

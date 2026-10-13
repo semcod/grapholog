@@ -1,0 +1,13 @@
+{
+  "claims": [
+    {
+      "kind": "hypothesis",
+      "summary": "Zmiana funkcji limit mo\u017ce wp\u0142yn\u0105\u0107 na wynik dla danych granicznych.",
+      "evidence_ids": [
+        "E00004"
+      ],
+      "confidence": 0.6,
+      "suggested_test": "Por\u00f3wnaj obie wersje limit dla tych samych argument\u00f3w, uwzgl\u0119dniaj\u0105c warto\u015bci graniczne."
+    }
+  ]
+}

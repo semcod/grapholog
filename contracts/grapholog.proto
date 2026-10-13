@@ -1,0 +1,13 @@
+syntax = "proto3";
+package grapholog.v1;
+
+// JSON Schema is the authoritative payload contract shared with CLI/MCP/REST.
+// UTF-8 bytes preserve integers, schema versions and identifiers without Struct conversion.
+service Grapholog {
+  rpc Query(JsonRequest) returns (JsonResponse);
+  rpc Contract(ContractRequest) returns (ContractResponse);
+}
+message JsonRequest { bytes json_utf8 = 1; }
+message JsonResponse { bytes json_utf8 = 1; }
+message ContractRequest { string name = 1; string format = 2; }
+message ContractResponse { string media_type = 1; bytes content = 2; }

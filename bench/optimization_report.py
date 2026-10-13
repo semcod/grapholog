@@ -1,0 +1,131 @@
+"""Render the self-contained Polish optimization/audit report from saved measurements."""
+from pathlib import Path
+import html
+import json
+
+ROOT=Path(__file__).resolve().parents[1]
+DATA=ROOT/'results/optimization'
+bench=json.loads((DATA/'benchmark.json').read_text())
+llm=json.loads((DATA/'llm-benchmark.json').read_text())
+labels={'many-small-300':'300 małych plików','many-small-1500':'1500 małych plików',
+        'dense-60':'60 plików; 100 funkcji w każdym TS','moved-150':'150 przeniesionych i zmienionych plików TS'}
+rows=[]
+for case in bench['benchmarks']:
+    for engine in ('rust','python'):
+        old,new=(case['summary'][engine+'-'+v] for v in ('0.1','0.2'))
+        gain=old['median_seconds']/new['median_seconds']
+        saved=100*(1-new['median_peak_rss_mib']/old['median_peak_rss_mib'])
+        rows.append(f'<tr><td>{labels[case["name"]]}</td><td>{engine.title()}</td><td>{old["median_seconds"]:.3f}</td><td>{new["median_seconds"]:.3f}</td><td>{gain:.2f}×</td><td>{old["median_peak_rss_mib"]:.1f} → {new["median_peak_rss_mib"]:.1f}</td><td>−{saved:.1f}%</td></tr>')
+llm_gain=llm['summary']['0.1']['median_seconds']/llm['summary']['0.2']['median_seconds']
+prob=1-(1-.7**6)**20
+se=(.25/120)**.5
+source_manifest=html.escape((DATA/'audit-manifest.txt').read_text())
+body=f'''<!doctype html><html lang="pl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grapholog 0.2 — optymalizacja i ocena uwag</title>
+<style>
+:root{{color-scheme:light;--ink:#172b3b;--muted:#50677b;--accent:#087f8c;--line:#d9e4ea}}
+*{{box-sizing:border-box}}body{{margin:0;background:#f3f7f9;color:var(--ink);font:16px/1.62 system-ui,-apple-system,Segoe UI,sans-serif}}main{{max-width:1120px;margin:30px auto;background:white;padding:50px 56px;border:1px solid var(--line);border-radius:12px}}h1{{font-size:36px;line-height:1.18;letter-spacing:-1px;margin:14px 0 18px}}h2{{font-size:24px;margin-top:46px;border-top:1px solid var(--line);padding-top:24px}}h3{{font-size:18px;margin:25px 0 9px}}p{{margin:14px 0}}a{{color:#086b87}}.tag{{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}}.lead{{font-size:20px;max-width:900px}}.muted,small{{color:var(--muted)}}.callout{{background:#eaf6f5;border-left:4px solid var(--accent);padding:16px 20px;margin:22px 0}}.grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}.metric{{border:1px solid var(--line);padding:17px;border-radius:8px}}.metric strong{{display:block;font-size:29px;color:var(--accent)}}.table{{overflow-x:auto}}table{{border-collapse:collapse;width:100%;font-size:14px}}th{{text-align:left;background:#edf3f6}}td,th{{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}}td:nth-child(n+3){{font-variant-numeric:tabular-nums}}pre{{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5f8;padding:16px 20px;border-radius:6px;font-size:13px;line-height:1.6}}code{{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}}.eq{{padding:12px 18px;border-left:3px solid #adc6d0;font-family:ui-monospace,monospace;overflow-wrap:anywhere}}li{{margin:6px 0}}footer{{font-size:13px;color:var(--muted);margin-top:40px;border-top:1px solid var(--line);padding-top:18px}}@media(max-width:760px){{main{{padding:28px 20px;margin:0;border:0;border-radius:0}}h1{{font-size:29px}}.grid{{grid-template-columns:1fr}}}}@media print{{body{{background:white}}main{{margin:0;border:0;padding:16px}}h2{{break-after:avoid}}tr,.metric,pre{{break-inside:avoid}}a{{color:inherit}}}}
+</style><main>
+<div class="tag">GRAPHOLOG / WYDANIE 0.2.0 / 1 PAŹDZIERNIKA 2026</div>
+<h1>Optymalizacja z zachowaniem wyników analizy</h1>
+<p class="lead">Rust pozostaje dobrym wyborem dla silnika CLI. Uwagi zawierają wartościowe kierunki, ale część gwarancji wykracza poza możliwości proponowanego kodu. Wdrożona wersja przyspiesza istniejące parsery i ogranicza pamięć bez zmiany ich odcisków.</p>
+<div class="grid"><div class="metric"><strong>2,74×</strong>przyspieszenie Rusta przy porównaniu 150 przeniesionych, zmienionych plików</div><div class="metric"><strong>−58,4% RAM</strong>Rust, korpus 1500 małych plików na projekt</div><div class="metric"><strong>{llm_gain:.2f}×</strong>szybsze przygotowanie kontekstu LLM; bez wywołania modelu</div></div>
+<p class="muted">To wyniki konkretnych korpusów syntetycznych. Nie są gwarancją przyspieszenia na dowolnym repozytorium ani rankingiem języków niezależnym od implementacji.</p>
+
+<h2>Ocena przesłanych uwag</h2>
+<div class="table"><table><thead><tr><th>Teza / pomysł</th><th>Ocena i decyzja</th></tr></thead><tbody>
+<tr><td>Rust jako silnik, Python do AST i analizy</td><td>Uzasadnione w tym prototypie. W aktualnych próbach Rust 0.2 jest od 2,88× do 4,49× szybszy od Pythona 0.2. Wybór parsera, układu danych i algorytmu wpływa na wynik mocniej niż sama etykieta języka.</td></tr>
+<tr><td>Identyczne wyniki po zmianie generatora MinHash</td><td>Nie wynika to z determinizmu. Potrzebne są zgodne tokeny, normalizacja, gramatyka, kodowanie, parametry i wersje. W istniejącym Graphologu 0.1 nie było funkcji <code>make_hashers</code> ani MinHash; proponowany patch nie pasuje do tej bazy. Zmiana PRNG nie naprawia wcześniejszego etapu fingerprintów.</td></tr>
+<tr><td>Ręczny lexer jako struktura Python</td><td>Może być pomocniczą heurystyką klonów. Nie zastępuje AST. Wykonany test pokazał zbieżne tokeny po zmianie liczby, napisu, wcięcia i wyrażenia w f-stringu. Zachowano CPython AST i Tree-sitter.</td></tr>
+<tr><td>LSH i ograniczenie liczby par</td><td>Kierunek trafny. W 0.2 wdrożono indeks odwrócony z dokładnymi ograniczeniami Jaccarda. Nie wprowadzono probabilistycznej utraty kandydatów; nadal obowiązuje jawny limit par.</td></tr>
+<tr><td>Merkle, cache, równoległość i mesh</td><td>Przydatne następne etapy. Korzeń Merkle jest identyfikatorem stanu, a nie całym stanem. Odtworzenie po awarii wymaga zachowanych danych, węzłów DAG, wersji analizatora i trwałego dziennika zadań. Sam hash ani idempotencja tego nie zapewniają.</td></tr>
+<tr><td>Hash potwierdza twierdzenie LLM</td><td>Hash wiąże twierdzenie ze wskazanym artefaktem, ale nie dowodzi, że wniosek jest prawdziwy. Walidator sprawdza format i odwołania; zachowanie programu wymaga testów lub odpowiedniej analizy formalnej.</td></tr>
+<tr><td>10–100×, 10–30× mniej pamięci, binarka 3 MB/ARM</td><td>Takie liczby wymagają pomiaru konkretnego wydania i targetu. Wyniki 0.2 podano poniżej. Dołączona binarka jest dla Linux x86_64 i wymaga glibc ≥ 2.34; nie jest statycznym wydaniem ARM.</td></tr>
+</tbody></table></div>
+
+<h3>Kontrprzykłady sprawdzone na lexerze z uwag</h3>
+<p>Wyodrębniono bez zmian tylko lexer i <code>canon_tokens</code>, skompilowano je Rustem oraz uruchomiono na czterech parach. Wszystkie zwróciły <code>canonical_equal=true</code>:</p>
+<div class="table"><table><tr><th>Zmiana źródła</th><th>Co jest tracone</th></tr>
+<tr><td><code>return x &lt; 10</code> → <code>return x &lt; 1000</code></td><td>Wartość liczby, zastąpiona przez <code>#N</code>.</td></tr>
+<tr><td><code>return "allow"</code> → <code>return "deny"</code></td><td>Wartość napisu, zastąpiona przez <code>"S"</code>.</td></tr>
+<tr><td><code>return x</code> przeniesione z wnętrza <code>if</code> do otaczającej funkcji</td><td>Struktura bloków określana przez wcięcia.</td></tr>
+<tr><td><code>f"{{x + 1}}"</code> → <code>f"{{x - 1}}"</code></td><td>Wyrażenie wykonywane wewnątrz f-stringa.</td></tr></table></div>
+<p>Hash surowych bajtów nadal wykryje zmianę. Problem dotyczy kanału strukturalnego i interpretacji wyniku <code>ISO</code>. Takie odciski mogą sygnalizować kandydata klonu, lecz nie niezmienioną logikę. Testy Graphologa 0.2 zachowują rozróżnienie tych zmian.</p>
+<p>Dodatkowo niezmodyfikowany manifest z uwag zatrzymał <code>cargo check --offline</code> przed kompilacją źródła:</p><pre>{source_manifest}</pre>
+<p>Pełnej aplikacji z uwag nie uruchamiano i nie przypisano jej wyników wydajności. Statyczny przegląd pokazuje też ryzyka: <code>fs::read(...).unwrap_or_default()</code> zamienia błąd odczytu na pustą treść, a wycinanie funkcji po kolumnach może błędnie obsłużyć <code>async def</code> i definicje zagnieżdżone.</p>
+
+<h2>Co zmieniono w 0.2</h2>
+<ol>
+<li><strong>Fingerprinty:</strong> kodowanie JSON każdego różnego tokena i haszowanie każdego różnego 5-gramu odbywa się raz w pliku. Powtarzające się okna nie wywołują ponownie SHA-256. Zachowany jest kontrakt bajtowy i uporządkowany zbiór wyników z 0.1.</li>
+<li><strong>Porównanie:</strong> indeks odwrócony, ograniczenie długości i filtr prefiksu odrzucają niemożliwe dopasowania. Rust oblicza przecięcie już posortowanych tablic bez budowania drzewa zbioru dla każdej pary.</li>
+<li><strong>JSON:</strong> oba CLI zapisują wynik strumieniowo. Rust serializuje projekty przez referencje; nie tworzy pełnej kopii grafu jako <code>serde_json::Value</code> ani wielkiego końcowego napisu.</li>
+<li><strong>Skan Rust:</strong> wspólny bufor odczytu 64 KiB i jednokrotna kompilacja wzorców wykluczeń zastępują alokację bufora 1 MiB i kompilowanie wzorców przy każdym pliku.</li>
+<li><strong>LLM:</strong> koszt rekordu liczony raz, wybór naprzemienny między typami dowodów, jawne podsumowanie zbyt dużego rekordu pliku. Hash raportu liczony strumieniowo. Poprawiono odrzucanie nieprawidłowego pola <code>kind</code>.</li>
+</ol>
+<p>Wyszukiwanie funkcji, klony funkcji, importy, kandydaci wywołań, widoki terminala i DOT były już w 0.1. Ta aktualizacja nie przedstawia ich jako nowych funkcji. Nie dodaje pełnego CFG/PDG, semantycznej równoważności ani parsera wejściowych plików <code>.rs</code>.</p>
+
+<h2>Pomiary przed i po zmianach</h2>
+<div class="table"><table><thead><tr><th>Korpus na jeden projekt</th><th>Silnik</th><th>0.1 [s]</th><th>0.2 [s]</th><th>Przysp.</th><th>RSS [MiB]: 0.1 → 0.2</th><th>Zmiana RSS</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div>
+<p>Wiersze podają mediany 7 przebiegów. Czas obejmuje uruchomienie CLI, odczyt obu projektów, parsowanie, rozwiązywanie zależności, porównanie i zapis pełnego JSON do <code>/dev/null</code>. Każdy wariant miał rozgrzewkę; kolejność naprzemienna, cache systemu plików rozgrzany, affinity do jednego CPU. Pamięć: szczytowy RSS procesu potomnego z <code>wait4</code>. Kompilacja i profiler poza pomiarem.</p>
+<p>Środowisko: AMD EPYC 9V74, Linux 6.18.44, Python 3.12.14, rustc 1.98.1, release/thin LTO. Wersje gramatyk, surowe próbki, minima/maksima i hashe binarek są w <code>results/optimization/benchmark.json</code>. Liczby plików dotyczą każdego z dwóch drzew. Korpusy mają odpowiednio 26 960, 136 560, 348 895 i 168 100 bajtów na projekt — nie są to wielogigabajtowe repozytoria.</p>
+<div class="callout">Dla 150 przeniesionych plików: <strong>22 500</strong> par kwalifikowanych → <strong>299</strong> obliczonych przecięć → <strong>150</strong> trafień. Odrzucono bez obliczania przecięcia 22 201 par (98,67%). Wynik jest zgodny z 0.1.</div>
+<p>Przy 1500 małych plikach różnica czasu Rusta wynosi tylko około 4% i mieści się w rozrzucie próbek. Mocniejszym wynikiem w tym przypadku jest spadek RSS o 58,4%. Wielkość zysku zależy od powtarzalności tokenów, liczby kandydatów oraz objętości raportu.</p>
+
+<h3>Eksporter kontekstu LLM</h3>
+<p>6000 kandydatów dowodów, budżet 40 000 znaków, 7 przebiegów: <strong>1,144 s → 0,132 s ({llm_gain:.2f}×)</strong>. RSS: 20,89 → 21,39 MiB, czyli niewielki wzrost. Wcześniej każde rozważenie rekordu serializowało już wybrany kontekst; teraz koszt jest sumowany.</p>
+<p>0.1 wybrała 203 rekordy i zużyła 34 318 znaków; 0.2 wybrała 190 rekordów i zużyła 39 989 znaków. Nowy wybór obejmuje także pliki, podczas gdy stary mógł zużyć budżet wyłącznie na zmiany. Pakiety są celowo różne. Nie mierzono jakości odpowiedzi LLM ani czasu inferencji modelu; żaden model nie był wywołany. Budżet dotyczy znaków wiadomości, nie tokenów.</p>
+
+<h2>Zgodność i zakres testów</h2>
+<ul>
+<li><strong>22 testy Python/CLI + 2 testy jednostkowe Rust</strong> zakończone powodzeniem. Są wśród nich Unicode i escaping fingerprintów, błędy parsowania, duplikaty, symlinki, brak wykonywania kodu, limity, zamknięta rura stdout i przykłady utraty informacji z uwag.</li>
+<li><strong>Filtr porównań:</strong> zgodność z niezależnym pełnym przeglądem par dla kilku progów (w tym 0 i 1), limitów, rozmiarów zbiorów, grup parserów i danych deterministycznie losowych, osobno w Pythonie i Rust.</li>
+<li><strong>0.1 → 0.2:</strong> pełne obiekty raportów zgodne dla obu silników na małym korpusie scan/diff i na czterech korpusach wydajnościowych, po usunięciu czterech nowych pól statystyki wyszukiwania. Kolejność kluczy JSON Rusta może się różnić.</li>
+<li><strong>Python ↔ Rust:</strong> 30 oczekiwanych przypadków klasyfikacji bez błędów; 17 plików korzystających ze wspólnych gramatyk, 9 pól porównanych, bez rozbieżności. Zgodne inwentarze, cykle i zmiany zależności.</li>
+<li><strong>Różnice parserów zachowane:</strong> redundantne nawiasy i zmiana rodzaju cudzysłowu w Pythonie pozostają <code>syntax-equal</code> dla CPython AST, a <code>changed</code> dla Rust/Tree-sitter CST. Determinizm sam nie oznacza zgodności dwóch różnych reprezentacji.</li>
+</ul>
+<p>Nie jest to walidacja precision/recall na oznaczonym zbiorze prawdziwych klonów ani dowód poprawności całego analizatora. Hashe dotyczą reprezentacji składni. Statyczne zależności są kandydatami, a snapshot całego systemu plików nie jest atomowy.</p>
+
+<h2>Podstawa algorytmiczna i korekty wzorów</h2>
+<h3>Dokładny Jaccard i wdrożony filtr</h3>
+<p>Dla zbiorów fingerprintów A i B oraz c = |A ∩ B|, n = |A|, m = |B|:</p>
+<div class="eq">J(A,B) = c / (n + m − c)<br>J ≥ τ ⇒ c ≥ τ(n+m)/(1+τ)<br>J ≤ min(n,m) / max(n,m)</div>
+<p>Ponieważ także c ≥ τn, dowolny prefiks A długości n − ⌈τn⌉ + 1 musi mieć wspólny element z B dla pary spełniającej próg. Implementacja używa nieco dłuższego prefiksu opartego na ⌊τn⌋, zachowując ostrożność przy zaokrągleniach. Najpierw wybiera rzadkie odciski, a potem sprawdza pełny Jaccard kandydatów. Dla τ = 0 rozważa wszystkie pary w budżecie.</p>
+<p>To prosty wariant dokładnej filtracji, zgodny z kierunkiem badań nad indeksami dla all-pairs similarity search <a href="#s3">[3]</a>. Nie jest pełną implementacją algorytmu Bayardo i współautorów. W najgorszym przypadku liczba kandydatów nadal może być kwadratowa. Gwarancja dotyczy odcisków i par objętych limitem, nie wszystkich możliwych zmian programu.</p>
+<h3>MinHash i LSH: prawdopodobieństwo, nie certyfikat</h3>
+<p>Podobieństwo zbiorów fragmentów ma podstawę w badaniach Brodera <a href="#s1">[1]</a>. Dla niezależnych, idealnie minwise losowych permutacji zgodność jednego MinHash ma prawdopodobieństwo J; średnia z h takich prób ma błąd standardowy:</p>
+<div class="eq">SE(Ĵ) = √(J(1−J)/h)<br>h = 120 ⇒ maksymalny SE ≈ {se:.4f}; normalne przybliżenie 95%: ±{1.96*se:.4f}</div>
+<p>Dlatego „błąd około ±0,05” nie jest ogólną gwarancją 95%. Rodzina haszy afinicznych z kodu nie jest automatycznie rodziną idealnych niezależnych permutacji. Dla b pasm po r niezależnych wierszy LSH model daje <a href="#s4">[4]</a>:</p>
+<div class="eq">P(kandydat | J=s) = 1 − (1 − sʳ)ᵇ<br>b=20, r=6, s=0,7 ⇒ P≈{prob:.4f}</div>
+<p>To około 91,8% szansy przejścia przez etap kandydatów w tym modelu, nie 100% recall. Dokładny Jaccard po LSH nie odzyskuje par odrzuconych wcześniej. MinHash i LSH nie są częścią wydania 0.2.</p>
+<h3>Winnowing, odległość drzew i dobór kontekstu</h3>
+<p>Winnowing gwarantuje znalezienie co najmniej jednego wspólnego k-gramu w identycznym fragmencie znormalizowanej sekwencji o długości co najmniej k+w−1. Asymptotyczna gęstość 2/(w+1) opiera się na założeniu niezależnych, jednostajnych haszy; nie jest granicą dla każdego kodu źródłowego <a href="#s2">[2]</a>. Nie dowodzi zgodności semantyki utraconej podczas normalizacji.</p>
+<p>Ogólna złożoność czasowa Zhang–Shasha nie wynosi po prostu O(n²). Dla drzew T₁,T₂ wynosi O(|T₁||T₂|min(depth₁,leaves₁)min(depth₂,leaves₂)); pamięć O(|T₁||T₂|) <a href="#s5">[5]</a>. Obecny Grapholog nie oblicza pełnej odległości edycyjnej drzew.</p>
+<p>Gwarancji 1−1/e dla odpowiedniego problemu submodularnego nie wolno przenosić automatycznie na dowolny greedy z nierównymi kosztami tokenów. Wariant knapsack ma własny algorytm i założenia <a href="#s6">[6]</a>. Wybór round-robin w 0.2 jest jawną heurystyką pokrycia typów dowodów; nie przypisano mu takiej gwarancji.</p>
+
+<h2>LLM oraz dalszy rozwój</h2>
+<div class="table"><table><tr><th>Warstwa</th><th>Odpowiedzialność</th></tr><tr><td>Analizator Rust / Python</td><td>Pliki, odciski, deklaracje, statyczne powiązania, statusy i jawne ograniczenia.</td></tr><tr><td>Eksporter kontekstu</td><td>Zmiany, duplikaty, sąsiedztwo importów, hash raportu i identyfikatory dowodów w zadanym budżecie.</td></tr><tr><td>LLM</td><td>Wyjaśnienia, hipotezy wpływu, propozycje testów z odwołaniami. Pewność modelu nie jest skalibrowanym prawdopodobieństwem.</td></tr><tr><td>Walidator + testy</td><td>Walidator kontroluje schemat i istnienie referencji. Testy lub analiza formalna sprawdzają wybrane twierdzenia o zachowaniu.</td></tr></table></div>
+<p>Priorytet dalszych prac: najpierw pomiary na docelowych repozytoriach, następnie cache parsowania z kluczem SHA-256 treści + język + wersja gramatyki/normalizacji. Wyniki parsowania można ponownie wykorzystać, ale importy i wywołania trzeba rozwiązać w kontekście aktualnego drzewa i konfiguracji. Dalej: ograniczona liczba workerów i deterministyczne scalanie, Merkle do identyfikacji poddrzew, a dopiero potem opcjonalne LSH i rozproszone wykonanie.</p>
+<p>W tym wydaniu nie wdrożono trwałego cache, wielowątkowości, Merkle DAG ani mesh. System rozproszony wymagałby dodatkowo trwałego magazynu obiektów, wersjonowanych zadań, ponowień, wykrywania braków i zasad retencji. Stała długość hasha nie daje stałego rozmiaru przechowywanych danych.</p>
+
+<h2>Uruchomienie</h2>
+<pre>chmod +x bin/grapholog-rs-linux-x86_64
+./bin/grapholog-rs-linux-x86_64 scan /ścieżka/projekt --all --detail full
+./bin/grapholog-rs-linux-x86_64 diff /ścieżka/A /ścieżka/B --format json &gt; /tmp/diff.json
+
+python3 -m pip install python-dist/grapholog-0.2.0-py3-none-any.whl
+grapholog-llm prepare /tmp/diff.json --max-chars 40000 &gt; /tmp/packet.json
+# Przekaż messages i response_schema wybranemu modelowi; zapisz JSON odpowiedzi.
+grapholog-llm validate /tmp/packet.json /tmp/reply.json</pre>
+<p>Pythonowy eksporter LLM nie wymaga parserów, gdy przetwarza gotowy raport Rusta. Pełna instrukcja, reguły wykluczeń i ograniczenia języków wejściowych: <code>README.md</code>. <code>--check</code> zachowuje znaczenie kodu wyjścia CI, a <code>--max-pairs</code> znaczenie budżetu z 0.1. Dodatkowe pola statystyk nie zmieniają schematu v1; <code>truncated=true</code> zawsze sygnalizuje niepełne wyszukiwanie.</p>
+
+<h2>Źródła pierwotne i dokumentacja</h2>
+<ol><li id="s1">A. Broder (1997), <a href="https://www.cs.princeton.edu/courses/archive/spr05/cos598E/bib/broder97resemblance.pdf">On the resemblance and containment of documents</a>.</li>
+<li id="s2">S. Schleimer, D. Wilkerson, A. Aiken (SIGMOD 2003), <a href="https://theory.stanford.edu/~aiken/publications/papers/sigmod03.pdf">Winnowing: Local Algorithms for Document Fingerprinting</a>.</li>
+<li id="s3">R. Bayardo, Y. Ma, R. Srikant (WWW 2007), <a href="https://www.bayardo.org/ps/www2007.pdf">Scaling Up All Pairs Similarity Search</a>.</li>
+<li id="s4">J. Leskovec, A. Rajaraman, J. Ullman, <a href="https://infolab.stanford.edu/~ullman/mmds/ch3n.pdf">Mining of Massive Datasets, rozdział Finding Similar Items</a>, model pasm LSH.</li>
+<li id="s5">K. Zhang, D. Shasha (1989), <a href="https://epubs.siam.org/doi/10.1137/0218082">Simple Fast Algorithms for the Editing Distance between Trees and Related Problems</a>; wzór złożoności również w <a href="https://jgrapht.org/javadoc/org.jgrapht.core/org/jgrapht/alg/similarity/ZhangShashaTreeEditDistance.html">oficjalnej dokumentacji implementacji JGraphT</a>.</li>
+<li id="s6">M. Sviridenko (2004), <a href="https://research.ibm.com/publications/a-note-on-maximizing-a-submodular-set-function-subject-to-a-knapsack-constraint">A note on maximizing a submodular set function subject to a knapsack constraint</a>.</li></ol>
+<footer>Raport dotyczy dostarczonego prototypu Grapholog 0.2.0 i uwag z pliku „Wklejony tekst(6).txt”. Źródła naukowe opisują metody i warunki ich stosowania; nie stanowią naukowej walidacji tego konkretnego narzędzia. Wyniki pomiarów są lokalne i odtwarzalne za pomocą skryptów w katalogu bench.</footer>
+</main></html>'''
+(ROOT/'RAPORT.html').write_text(body,encoding='utf-8')
+print(ROOT/'RAPORT.html')

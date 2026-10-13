@@ -1,0 +1,10 @@
+{
+  "dom_execution": "passed",
+  "svg_rendering": "passed",
+  "search_empty_reset": "passed",
+  "group_selection": "passed",
+  "full_project_membership_filter": "passed",
+  "scope_filter": "passed",
+  "javascript_errors": [],
+  "pixel_visual_inspection": false
+}

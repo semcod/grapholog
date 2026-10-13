@@ -1,0 +1,13 @@
+{
+  "version": "0.5.0",
+  "passed": [
+    "30 source/resource files identical in wheel, installed package and zipapp",
+    "installed wheel and zipapp: real Planfile materialization, dedupe, catalog and Koru argv preview",
+    "installed CLI and zipapp: version, logic scan, shared query result",
+    "installed CLI: three-project index, full graph, terminal output",
+    "zipapp resources: HTML, contracts, source evidence, context and proposal validation",
+    "bundled native binary reports current release version; SHA-256 recorded",
+    "report HTML parsed and expected content present"
+  ],
+  "llm_called": false
+}

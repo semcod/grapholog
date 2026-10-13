@@ -1,0 +1,10 @@
+   Compiling grapholog-rs v0.4.0 (/workspace/scratch/a9449883e173/grapholog/rust)
+    Finished `release` profile [optimized] target(s) in 5.84s
+     Running unittests src/main.rs (rust/target/release/deps/grapholog_rs-97a7ef2843249c6e)
+
+running 2 tests
+test model::tests::shingles_preserve_v1_json_byte_contract ... ok
+test similarity::tests::indexed_search_matches_exhaustive_oracle ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+

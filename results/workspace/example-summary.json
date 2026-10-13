@@ -1,0 +1,58 @@
+{
+  "schema": "grapholog.response.v1",
+  "snapshot_id": "0b14a3842d627198d85c8da2c583bf7df9bf3a9c6458cd77049f65d49d2eaafe",
+  "operation": "summary",
+  "data": {
+    "counts": {
+      "projects": 3,
+      "files": 15,
+      "symbols": 9,
+      "nodes": 39,
+      "edges": 53,
+      "clone_groups": 3,
+      "cross_project_groups": 3,
+      "excluded_entries": 3
+    },
+    "coverage_complete_within_policy": true,
+    "engine": {
+      "engine": "python",
+      "parser_identity": {
+        "code": {
+          "cache.py": "e4c47b657ca9ab9fbe1ea0348829a82a6ecb4068eb020ebcfaa6bd4adcdb3fef",
+          "model.py": "55b281cae867b1adb5133d7dfde02a9001e23eb8ee0ab6457fce181ceb68edee",
+          "python_parser.py": "60708f3bad3c857e3bdfed7866d44b9503de6458265cbce77245789e19d79c0e",
+          "tree_parser.py": "f23a79066267e408d99e41a4979d7aa0916f0712d38b8a5b1d87614f9ae5deb0"
+        },
+        "engine": "python",
+        "format": "grapholog.parse-cache.v1",
+        "interpreter": [
+          "cpython",
+          3,
+          12,
+          14
+        ],
+        "packages": {
+          "tree-sitter": "0.25.2",
+          "tree-sitter-bash": "0.25.1",
+          "tree-sitter-javascript": "0.25.0",
+          "tree-sitter-php": "0.24.1",
+          "tree-sitter-typescript": "0.23.2"
+        },
+        "version": "0.4.0"
+      }
+    },
+    "profile": "logic",
+    "version": "0.4.0",
+    "limitations": [
+      "Static syntax/call candidates; not semantic equivalence or purity.",
+      "Cross-project groups compare the same language and parser only.",
+      "Imports/calls resolve within each project; external package identities are not inferred.",
+      "Directory pruning counts entries, not unknown descendants. Tests and license context are retained.",
+      "repeated_nodes is a syntactic ranking heuristic; nested symbols can overlap. Not saved LOC.",
+      "A committed index is a scan result, not an atomic filesystem snapshot."
+    ],
+    "excluded_reasons": {
+      "generated-or-tool-directory": 3
+    }
+  }
+}

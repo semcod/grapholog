@@ -1,0 +1,110 @@
+GRAPHOLOG 0.1.0 | POROWNANIE A → B
+A: grapholog-0.1.0/examples/A
+B: grapholog-0.1.0/examples/B
+added=1  changed=2  identifier-change-candidate=1  relocated-identical=1  removed=1  syntax-equal=3  unchanged=21
+
+WSPOLNE DRZEWO
+├── assets/
+│   └── [=] icon.bin  unchanged
+├── cycle/
+│   ├── [=] a.js  unchanged
+│   └── [=] b.js  unchanged
+├── empty/
+├── new/
+│   └── [R=] moved.php  relocated-identical
+│         old.php → new/moved.php
+├── php/
+│   ├── [=] main.php  unchanged
+│   └── [=] util.php  unchanged
+├── shell/
+│   ├── [=] lib.sh  unchanged
+│   └── [=] main.sh  unchanged
+├── src/
+│   └── pkg/
+│       ├── [=] __init__.py  unchanged
+│       ├── [=] main.py  unchanged
+│       └── [=] math.py  unchanged
+├── web/
+│   ├── [=] card.tsx  unchanged
+│   ├── [=] main.js  unchanged
+│   ├── [=] math.js  unchanged
+│   ├── [=] types.ts  unchanged
+│   └── [=] uni.js  unchanged
+├── [+] added.txt  added
+├── [=] bad.js  unchanged
+│     ! A: parse-error
+│     ! A: L1: ERROR (partial syntax tree)
+│     ! B: parse-error
+│     ! B: L1: ERROR (partial syntax tree)
+├── [=] config.json  unchanged
+├── [=] copy_a.js  unchanged
+├── [=] copy_b.js  unchanged
+├── [-] deleted.txt  removed
+├── [S] format.ts  syntax-equal
+├── [~] literal.py  changed
+│     symbols changed: limit
+├── [=] notes.txt  unchanged
+├── [~] operator.js  changed
+│     symbols changed: calc
+├── [S] paren.py  syntax-equal
+├── [S] quote.py  syntax-equal
+├── [N?] rename.js  identifier-change-candidate
+│     symbols added: amount
+│     symbols removed: total
+└── [=] same.py  unchanged
+
+ZMIANY KATALOGOW
+  + new/
+
+ZMIANY ZALEZNOSCI (po dopasowaniu przeniesien)
+  Brak zmian wykrytych zaleznosci.
+
+PODOBNE PLIKI BEZ DOPASOWANIA (kandydaci)
+  Brak kandydatow powyzej progu.
+  Porownano 0/0 par, prog=70%.
+
+DUPLIKATY A/B (grupy obejmuja tez kopie wewnatrz projektu)
+  BAJTY = A:assets/icon.bin → B:assets/icon.bin
+  BAJTY = A:bad.js → B:bad.js
+  BAJTY = A:config.json → B:config.json
+  BAJTY = A:copy_a.js → A:copy_b.js → B:copy_a.js → B:copy_b.js
+  BAJTY = A:cycle/a.js → B:cycle/a.js
+  BAJTY = A:cycle/b.js → B:cycle/b.js
+  BAJTY = A:notes.txt → B:notes.txt
+  BAJTY = A:old.php → B:new/moved.php
+  BAJTY = A:php/main.php → B:php/main.php
+  BAJTY = A:php/util.php → B:php/util.php
+  BAJTY = A:same.py → B:same.py
+  BAJTY = A:shell/lib.sh → B:shell/lib.sh
+  BAJTY = A:shell/main.sh → B:shell/main.sh
+  BAJTY = A:src/pkg/__init__.py → B:src/pkg/__init__.py
+  BAJTY = A:src/pkg/main.py → B:src/pkg/main.py
+  BAJTY = A:src/pkg/math.py → B:src/pkg/math.py
+  BAJTY = A:web/card.tsx → B:web/card.tsx
+  BAJTY = A:web/main.js → B:web/main.js
+  BAJTY = A:web/math.js → B:web/math.js
+  BAJTY = A:web/types.ts → B:web/types.ts
+  BAJTY = A:web/uni.js → B:web/uni.js
+  SKLADNIA = A:format.ts → B:format.ts
+  NAZWY ~? A:operator.js → A:rename.js → A:web/math.js → B:rename.js → B:web/math.js
+  FUNKCJE =* A:copy_a.js::copied@1 → A:copy_b.js::copied@1 → B:copy_a.js::copied@1 → B:copy_b.js::copied@1
+  FUNKCJE =* A:format.ts::calc@1 → B:format.ts::calc@2
+  FUNKCJE =* A:old.php::moved@1 → B:new/moved.php::moved@1
+  FUNKCJE =* A:php/util.php::double_value@1 → B:php/util.php::double_value@1
+  FUNKCJE =* A:shell/lib.sh::double_value@1 → B:shell/lib.sh::double_value@1
+  FUNKCJE =* A:src/pkg/main.py::run@3 → B:src/pkg/main.py::run@3
+  FUNKCJE =* A:web/card.tsx::Card@2 → B:web/card.tsx::Card@2
+  FUNKCJE =* A:web/main.js::run@2 → B:web/main.js::run@2
+
+POKRYCIE A
+  binary=1  parse-error=1  parsed=24  text=3
+  wykluczone wpisy: node_modules
+
+POKRYCIE B
+  binary=1  parse-error=1  parsed=24  text=3
+  wykluczone wpisy: node_modules
+
+LEGENDA  = bajty bez zmian; S zgodna skladnia; N? zmiana nazw-kandydat; ~ zmiana;
+  R=/RS to jednoznaczna para tresci pod inna sciezka, nie historia Git; + dodany; - usuniety;
+  X zmiana wykonywalnosci; T zmiana typu; ! brak wiarygodnego odczytu.
+  Zgodna skladnia i podobienstwo nie stanowia dowodu rownowaznosci zachowania.

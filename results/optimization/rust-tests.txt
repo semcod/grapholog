@@ -1,0 +1,9 @@
+    Finished `release` profile [optimized] target(s) in 0.02s
+     Running unittests src/main.rs (rust/target/release/deps/grapholog_rs-74e26d6415165082)
+
+running 2 tests
+test model::tests::shingles_preserve_v1_json_byte_contract ... ok
+test similarity::tests::indexed_search_matches_exhaustive_oracle ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+

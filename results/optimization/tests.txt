@@ -1,0 +1,27 @@
+test_ambiguous_moves_not_arbitrarily_paired (test_grapholog.GraphTests.test_ambiguous_moves_not_arbitrarily_paired) ... ok
+test_cli_check_strict_output (test_grapholog.GraphTests.test_cli_check_strict_output) ... ok
+test_determinism_and_terminal_controls (test_grapholog.GraphTests.test_determinism_and_terminal_controls) ... ok
+test_directory_diff_and_executable_bit (test_grapholog.GraphTests.test_directory_diff_and_executable_bit) ... ok
+test_expected_changes_and_imports (test_grapholog.GraphTests.test_expected_changes_and_imports) ... ok
+test_ignored_binary_large_empty_and_links (test_grapholog.GraphTests.test_ignored_binary_large_empty_and_links) ... ok
+test_parse_errors_no_false_syntax_matches (test_grapholog.GraphTests.test_parse_errors_no_false_syntax_matches) ... ok
+test_project_is_not_executed (test_grapholog.GraphTests.test_project_is_not_executed) ... ok
+test_syntax_names_and_literals (test_grapholog.GraphTests.test_syntax_names_and_literals) ... ok
+test_context_budget_and_untrusted_instruction (test_llm.LLMTests.test_context_budget_and_untrusted_instruction) ... ok
+test_invalid_claim_references_and_hypotheses (test_llm.LLMTests.test_invalid_claim_references_and_hypotheses) ... ok
+test_malformed_kind_is_rejected_without_crashing (test_llm.LLMTests.test_malformed_kind_is_rejected_without_crashing) ... ok
+test_mixed_evidence_and_large_file_fallback (test_llm.LLMTests.test_mixed_evidence_and_large_file_fallback) ... ok
+test_fingerprints_match_v1_byte_contract (test_optimization.OptimizationTests.test_fingerprints_match_v1_byte_contract) ... ok
+test_index_matches_brute_force_with_pair_budgets (test_optimization.OptimizationTests.test_index_matches_brute_force_with_pair_budgets) ... ok
+test_literals_indentation_and_async_are_not_discarded (test_optimization.OptimizationTests.test_literals_indentation_and_async_are_not_discarded) ... ok
+test_diff_exit_codes_and_no_overwrite (test_rust.RustIntegrationTests.test_diff_exit_codes_and_no_overwrite) ... ok
+test_literals_indentation_and_fstrings_remain_distinct (test_rust.RustIntegrationTests.test_literals_indentation_and_fstrings_remain_distinct) ... ok
+test_relative_root_import_and_call (test_rust.RustIntegrationTests.test_relative_root_import_and_call) ... ok
+test_scan_controls_links_limits_and_no_execution (test_rust.RustIntegrationTests.test_scan_controls_links_limits_and_no_execution) ... ok
+test_streaming_json_handles_closed_pipe (test_rust.RustIntegrationTests.test_streaming_json_handles_closed_pipe) ... ok
+test_terminal_escaping_and_determinism (test_rust.RustIntegrationTests.test_terminal_escaping_and_determinism) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.319s
+
+OK

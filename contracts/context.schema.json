@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:grapholog:context:v1",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "grapholog.workspace-context.v1"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "system",
+              "user"
+            ]
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "content"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "message_characters": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "max_chars": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "selected_evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[pfsxge]_[0-9a-f]{32}$"
+      }
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[pfsxge]_[0-9a-f]{32}$"
+          },
+          "member_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[pfsxge]_[0-9a-f]{32}$"
+            }
+          },
+          "total_members": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "omitted_members": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "member_ids",
+          "total_members",
+          "omitted_members"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "reply_schema": {
+      "type": "object"
+    },
+    "grammar": {
+      "type": "string"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "schema",
+    "snapshot_id",
+    "messages",
+    "message_characters",
+    "max_chars",
+    "selected_evidence_ids",
+    "groups",
+    "reply_schema",
+    "grammar",
+    "limitations"
+  ],
+  "additionalProperties": false
+}

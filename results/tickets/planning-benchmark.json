@@ -1,0 +1,24 @@
+{
+  "projects": 200,
+  "indexed_files": 4600,
+  "index_version": "0.4.0",
+  "selected_families": 20,
+  "targets": 20,
+  "tasks": 261,
+  "stages": {
+    "design": 20,
+    "package": 20,
+    "verify": 20,
+    "migrate": 200,
+    "validate": 1
+  },
+  "migration_tasks": 200,
+  "plan_json_bytes": 7218582,
+  "seconds": [
+    1.3497436420002487,
+    1.1791089569996984,
+    1.1760046809977212
+  ],
+  "median_seconds": 1.1791089569996984,
+  "method": "Read-only Python planning on a saved synthetic JS/TS index; JSON Schema validation included. No Planfile writes, GitHub calls or model calls."
+}

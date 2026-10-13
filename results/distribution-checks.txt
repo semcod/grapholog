@@ -1,0 +1,5 @@
+PASS: wheel installed offline in clean venv; grapholog --version = 0.1.0
+PASS: clean core scan: Python AST works, optional parser absence reported
+PASS: pyz independent execution and diff --check exit=1
+PASS: HTML parsed; no unresolved templates or external scripts
+HTML visual browser rendering was not run (browser binary unavailable).

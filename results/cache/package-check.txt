@@ -1,0 +1,6 @@
+All Python modules in wheel and pyz exactly match measured source modules.
+wheel: version 0.3.0; off/cold/warm full analysis equality; strict=0; warm hits=2; changed diff --check=1; equal diff --check=0.
+pyz: version 0.3.0; off/cold/warm full analysis equality; strict=0; warm hits=2; changed diff --check=1; equal diff --check=0.
+native: version 0.3.0; off/cold/warm full analysis equality; strict=0; warm hits=2; changed diff --check=1; equal diff --check=0.
+Native warm cache report -> installed wheel LLM helper: 14571 characters, 56 evidence records; manually authored sample reply passes reference validation; no model invocation; semantic truth not verified.
+HTML validated with HTMLParser: balanced structure, 3 tables, expected measured figures. No browser visual inspection.

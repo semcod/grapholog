@@ -1,0 +1,125 @@
+GRAPHOLOG 0.1.0 | MAPA PROJEKTU
+grapholog-0.1.0/examples/A
+29 plikow/linkow | 8 katalogow | 19 symboli | 1 wykluczonych wpisow
+POKRYCIE  binary=1  parse-error=1  parsed=24  text=3
+
+DRZEWO + ZALEZNOSCI
+├── assets/
+│   └── [F001] icon.bin  other  0L  4B  [binary]
+├── cycle/
+│   ├── [F006] a.js  javascript  2L  60B  [parsed]
+│   │     import L1 ./b.js → F007?
+│   │     function first L2-2 nodes=9 decisions=0
+│   │     L2 first | return
+│   └── [F007] b.js  javascript  2L  61B  [parsed]
+│         import L1 ./a.js → F006?
+│         function second L2-2 nodes=9 decisions=0
+│         L2 second | return
+├── empty/
+├── php/
+│   ├── [F015] main.php  php  1L  64B  [parsed]
+│   │     import L1 @DIR@/util.php → F016?
+│   │     L1 <module> | double_value()
+│   └── [F016] util.php  php  1L  73B  [parsed]
+│         function double_value L1-1 nodes=20 decisions=1
+│         L1 double_value | if ($x < 0)
+│         L1 double_value |   return
+│         L1 double_value | return
+├── shell/
+│   ├── [F020] lib.sh  bash  1L  41B  [parsed]
+│   │     function double_value L1-1 nodes=12 decisions=0
+│   │     L1 double_value | echo()
+│   └── [F021] main.sh  bash  3L  69B  [parsed]
+│         import L2 ./lib.sh → F020?
+│         L2 <module> | source()
+│         L3 <module> | if test -n "$1"
+│         L3 <module> |   test()
+│         L3 <module> |   double_value()
+├── src/
+│   └── pkg/
+│       ├── [F022] __init__.py  python  0L  0B  [parsed]
+│       ├── [F023] main.py  python  6L  101B  [parsed]
+│       │     import L1 .math → F024?
+│       │     function run L3-6 nodes=18 decisions=1
+│       │     L4 run | if x > 0
+│       │     L5 run |   return
+│       │     L5 run |   add()
+│       │     L6 run | return
+│       │     call-link L5 run → src/pkg/math.py::sum_values@1?
+│       └── [F024] math.py  python  2L  39B  [parsed]
+│             function sum_values L1-2 nodes=11 decisions=0
+│             L2 sum_values | return
+├── web/
+│   ├── [F025] card.tsx  tsx  2L  90B  [parsed]
+│   │     import L1 ./math.js → F027?
+│   │     function Card L2-2 nodes=17 decisions=0
+│   │     L2 Card | sum()
+│   │     call-link L2 Card → web/math.js::sum@1?
+│   ├── [F026] main.js  javascript  2L  104B  [parsed]
+│   │     import L1 ./math.js → F027?
+│   │     function run L2-2 nodes=18 decisions=1
+│   │     L2 run | if (x > 0)
+│   │     L2 run |   return
+│   │     L2 run |   add()
+│   │     L2 run | return
+│   │     call-link L2 run → web/math.js::sum@1?
+│   ├── [F027] math.js  javascript  1L  44B  [parsed]
+│   │     function sum L1-1 nodes=10 decisions=0
+│   │     L1 sum | return
+│   ├── [F028] types.ts  typescript  1L  53B  [parsed]
+│   │     interface User L1-1 nodes=11 decisions=0
+│   └── [F029] uni.js  javascript  1L  53B  [parsed]
+│         function suma L1-1 nodes=9 decisions=0
+│         L1 suma | return
+├── [F002] bad.js  javascript  1L  26B  [parse-error]
+│     ! L1: ERROR (partial syntax tree)
+├── [F003] config.json  other  1L  17B  [text]
+├── [F004] copy_a.js  javascript  1L  65B  [parsed]
+│     function copied L1-1 nodes=16 decisions=1
+│     L1 copied | if (x < 0)
+│     L1 copied |   return
+│     L1 copied | return
+├── [F005] copy_b.js  javascript  1L  65B  [parsed]
+│     function copied L1-1 nodes=16 decisions=1
+│     L1 copied | if (x < 0)
+│     L1 copied |   return
+│     L1 copied | return
+├── [F008] deleted.txt  other  1L  10B  [text]
+├── [F009] format.ts  typescript  1L  50B  [parsed]
+│     function calc L1-1 nodes=12 decisions=0
+│     L1 calc | return
+├── [F010] literal.py  python  2L  32B  [parsed]
+│     function limit L1-2 nodes=9 decisions=0
+│     L2 limit | return
+├── [F011] notes.txt  other  1L  18B  [text]
+├── [F012] old.php  php  1L  45B  [parsed]
+│     function moved L1-1 nodes=12 decisions=0
+│     L1 moved | return
+├── [F013] operator.js  javascript  1L  45B  [parsed]
+│     function calc L1-1 nodes=10 decisions=0
+│     L1 calc | return
+├── [F014] paren.py  python  1L  14B  [parsed]
+├── [F017] quote.py  python  1L  16B  [parsed]
+├── [F018] rename.js  javascript  1L  46B  [parsed]
+│     function total L1-1 nodes=10 decisions=0
+│     L1 total | return
+└── [F019] same.py  python  2L  27B  [parsed]
+      function f L1-2 nodes=9 decisions=0
+      L2 f | return
+
+CYKLE IMPORTOW (skladowe grafu kandydatow)
+  {F006 cycle/a.js, F007 cycle/b.js}
+
+DUPLIKATY I KANDYDACI (min. 12 wezlow dla skladni/funkcji)
+  BAJTY = copy_a.js → copy_b.js
+  NAZWY ~? operator.js → rename.js → web/math.js
+  FUNKCJE =* copy_a.js::copied@1 → copy_b.js::copied@1
+
+WYKLUCZONE WPISY 
+  node_modules
+  Wykluczone katalogi nie byly przegladane; licznik nie obejmuje ich zawartosci.
+
+LEGENDA  = identyczne bajty; =* skladnia funkcji bez nazwy deklaracji; ~? podobny ksztalt.
+  ? oznacza kandydata statycznego. Brak linku nie dowodzi braku zaleznosci.
+  decisions = liczba konstrukcji decyzyjnych; nie jest dowodem zachowania ani pelnym CFG.
+  Wszystkie uwzglednione pliki sa wyswietlone; --all wlacza domyslnie wykluczone katalogi.

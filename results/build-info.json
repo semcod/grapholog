@@ -1,0 +1,11 @@
+{
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+  "target": "x86_64-unknown-linux-gnu",
+  "minimum_glibc_from_symbols": "2.34",
+  "tested_glibc": [
+    "glibc",
+    "2.39"
+  ],
+  "cargo_lock_sha256": "e8944327789a973b2cbeeb59bbb8d3c19443ebaeb71b68df814d6b6f9806705e",
+  "binary_sha256": "852051050005b0810ae89e42c12424d2dfd00fb7d23d3f5db17bc83452e000bb"
+}

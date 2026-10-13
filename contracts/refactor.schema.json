@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:grapholog:refactor:v1",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "grapholog.refactor-proposals.v1"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "group_id": {
+            "type": "string",
+            "pattern": "^[pfsxge]_[0-9a-f]{32}$"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "extract_library",
+              "parameterize",
+              "keep_local",
+              "needs_review"
+            ]
+          },
+          "library_name": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 3000
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[pfsxge]_[0-9a-f]{32}$"
+            },
+            "minItems": 1,
+            "maxItems": 40,
+            "uniqueItems": true
+          },
+          "risks": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000
+            },
+            "minItems": 1,
+            "maxItems": 10
+          },
+          "tests": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000
+            },
+            "minItems": 1,
+            "maxItems": 10
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "group_id",
+          "decision",
+          "library_name",
+          "rationale",
+          "evidence_ids",
+          "risks",
+          "tests",
+          "confidence"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 10
+    }
+  },
+  "required": [
+    "schema",
+    "snapshot_id",
+    "recommendations"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,121 @@
+<!doctype html><html lang="pl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grapholog — Python, Rust, algorytmy i LLM</title><style>
+:root{color-scheme:light dark;--bg:#f6f8fc;--fg:#14253b;--paper:#fff;--muted:#526276;--border:#d4ddec;--accent:#125ad5}
+@media(prefers-color-scheme:dark){:root{--bg:#0c1524;--fg:#e4edf9;--paper:#142136;--muted:#b1c3db;--border:#30465f;--accent:#84b9ff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,sans-serif}main{max-width:1120px;margin:auto;padding:48px 28px}
+h1{font-size:44px;line-height:1.12;margin:8px 0 20px;letter-spacing:-1.4px}h2{font-size:25px;margin:40px 0 14px}h3{font-size:19px}
+p{max-width:96ch}a{color:var(--accent)}.tag{font-size:12px;letter-spacing:1.8px;font-weight:700;color:var(--accent)}.lead{font-size:21px}
+.card,aside{background:var(--paper);padding:20px 24px;border:1px solid var(--border);border-radius:12px;margin:20px 0}.muted,small{color:var(--muted)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--border);vertical-align:top}th{font-weight:700;color:var(--muted)}
+.tablewrap{overflow:auto}code,pre{font:14px/1.55 ui-monospace,monospace}pre{overflow:auto;background:var(--paper);border:1px solid var(--border);padding:18px;border-radius:8px}.formula{padding:14px 20px;background:var(--paper);border-left:4px solid var(--accent);overflow:auto;font:18px/1.8 ui-monospace,monospace}
+li{margin-bottom:7px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.grid .card{margin:0}footer{border-top:1px solid var(--border);margin-top:36px;padding-top:16px}
+@media(max-width:700px){main{padding:24px 16px}h1{font-size:32px}.grid{display:block}.grid .card{margin:12px 0}}@media print{body{background:white;color:#172435}main{padding:0}a{color:#234b82}.card,aside,pre{break-inside:avoid}h2{break-after:avoid}}</style>
+<main><div class="tag">GRAPHOLOG 0.1.0 • BADANIE PROTOTYPU • 1 PAŹDZIERNIKA 2026</div>
+<h1>Rust do silnika.<br>Python do badań i LLM.</h1>
+<p class="lead">Powstały dwie działające implementacje CLI. Pomiar wskazuje przewagę czasu wykonania Rusta przy zgodnych wynikach wspólnych parserów. O jakości analizy decydują przede wszystkim reprezentacja kodu, normalizacja i rozwiązywanie zależności.</p>
+<aside><b>Granica wniosku:</b> testy obejmują nasze oryginalne, syntetyczne projekty. Nie wskazano docelowego repozytorium użytkownika. To odtwarzalny eksperyment inżynierski, nie opublikowana walidacja naukowa Graphologa ani uniwersalny ranking języków.</aside>
+
+<h2>1. Co faktycznie zbudowano</h2>
+<p>Oba CLI skanują drzewo katalogów, liczą SHA-256, pokazują pliki i puste katalogi, deklaracje, importy, kandydatów wywołań, konstrukcje sterujące i cykle. Porównują dwie wersje, dopasowują jednoznaczne przeniesienia oraz wykrywają dokładne i strukturalne grupy podobieństwa plików i funkcji. Eksport: terminal, JSON, DOT. Analizowany kod nie jest wykonywany.</p>
+<div class="grid"><div class="card"><h3>Python</h3><p>Python 3.10+, standardowe <code>ast</code> dla Pythona. Dodatkowe gramatyki Tree-sitter: JS/JSX, TS/TSX, PHP, Bash. Łatwy rozwój heurystyk i przygotowanie kontekstu dla modelu.</p></div>
+<div class="card"><h3>Rust</h3><p>Natywna binarka, Tree-sitter dla tych samych języków, także Pythona. Bez procesu Pythona i bez pobierania gramatyk podczas skanowania. Dostarczona binarka: Linux x86_64, glibc ≥2.34; sprawdzona na glibc 2.39.</p></div></div>
+<p>Inne rozszerzenia, w tym <code>.rs</code>, są inwentaryzowane i haszowane; adapter analizy składni Rusta nie jest częścią 0.1. Pełne CFG, przepływ danych, AST edit-script, cache, równoległe skanowanie, watch i automatyczne wywołanie API LLM pozostają rozszerzeniami.</p>
+
+<h2>2. Wyniki pomiarów</h2>
+<div class="tablewrap"><table><thead><tr><th>Scenariusz</th><th>Plików w każdym projekcie</th><th>Bajtów w jednym drzewie</th><th>Python, mediana</th><th>Rust, mediana</th><th>Przyspieszenie</th><th>RSS Python / Rust</th></tr></thead><tbody><tr><td>Małe pliki</td><td>30</td><td>2.6 KiB</td>
+<td>0.095 s</td><td>0.013 s</td><td><b>7.55×</b></td>
+<td>17.2 / 5.7 MiB</td></tr>
+<tr><td>Małe pliki</td><td>300</td><td>26.3 KiB</td>
+<td>0.458 s</td><td>0.104 s</td><td><b>4.41×</b></td>
+<td>33.5 / 20.5 MiB</td></tr>
+<tr><td>Małe pliki</td><td>1500</td><td>133.4 KiB</td>
+<td>2.235 s</td><td>0.535 s</td><td><b>4.18×</b></td>
+<td>107.1 / 81.4 MiB</td></tr>
+<tr><td>100 funkcji / TS</td><td>60</td><td>340.7 KiB</td>
+<td>3.877 s</td><td>0.895 s</td><td><b>4.33×</b></td>
+<td>77.1 / 54.4 MiB</td></tr></tbody></table></div>
+<p>Każdy wiersz: dwie wersje tego samego drzewa, 7 powtórzeń na silnik, 1 rozgrzewka, naprzemienna kolejność uruchomień, jeden przypisany rdzeń, rozgrzany cache plików. Pomiar obejmuje start CLI, odczyt, parsowanie, fingerprinty, graf, diff i serializację JSON do <code>/dev/null</code>. Nie obejmuje instalacji i kompilacji.</p>
+<p>CPU: AMD EPYC 9V74, środowisko współdzielone. Python 3.12.14; Rust 1.98.1, kompilacja <code>--release</code>, thin LTO. JS grammar 0.25.0 i TS grammar 0.23.2 w obu wariantach. Warstwy Tree-sitter mają własne wersje: Python binding 0.25.2, Rust crate 0.25.10. PHP nie jest użyte w pomiarach czasu; w testach poprawności pakiety mają wersje 0.24.1/0.24.2. Oba silniki korzystają z natywnych parserów Tree-sitter, więc nie jest to porównanie parsera czysto pythonowego z parserem Rust.</p>
+<p>Próbki RSS zebrano przez mały proces C i <code>wait4</code>, aby nie odziedziczyć dużego procesu pomiarowego w Pythonie. RSS zawiera parsery, graf, fingerprinty i wynik JSON. To szczyt całego procesu, nie sam koszt AST. Wszystkie porównywane pola wynikowe benchmarków były zgodne: dopasowania, liczniki, zmiany importów, podobieństwa i duplikaty.</p>
+<details><summary>Rozrzut czasu i środowisko</summary><table><thead><tr><th>Próba</th><th>Min–max</th><th>IQR</th></tr></thead><tbody><tr><td>małe, 30 plików, python</td><td>0.0899–0.0977 s</td><td>0.0056 s</td></tr>
+<tr><td>małe, 30 plików, rust</td><td>0.0112–0.0155 s</td><td>0.0019 s</td></tr>
+<tr><td>małe, 300 plików, python</td><td>0.4468–0.5126 s</td><td>0.0505 s</td></tr>
+<tr><td>małe, 300 plików, rust</td><td>0.0972–0.1131 s</td><td>0.0106 s</td></tr>
+<tr><td>małe, 1500 plików, python</td><td>2.1413–2.3794 s</td><td>0.0703 s</td></tr>
+<tr><td>małe, 1500 plików, rust</td><td>0.5076–0.5734 s</td><td>0.0474 s</td></tr>
+<tr><td>duże, 60 plików, python</td><td>3.7789–4.0695 s</td><td>0.1420 s</td></tr>
+<tr><td>duże, 60 plików, rust</td><td>0.8351–0.9479 s</td><td>0.0519 s</td></tr></tbody></table><pre>{
+  &quot;platform&quot;: &quot;Linux-6.18.44-x86_64-with-glibc2.39&quot;,
+  &quot;python&quot;: &quot;3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]&quot;,
+  &quot;cpu_count&quot;: 9,
+  &quot;cpu_model&quot;: &quot;AMD EPYC 9V74 80-Core Processor&quot;,
+  &quot;packages&quot;: {
+    &quot;tree-sitter&quot;: &quot;0.25.2&quot;,
+    &quot;tree-sitter-javascript&quot;: &quot;0.25.0&quot;,
+    &quot;tree-sitter-typescript&quot;: &quot;0.23.2&quot;,
+    &quot;tree-sitter-php&quot;: &quot;0.24.1&quot;,
+    &quot;tree-sitter-bash&quot;: &quot;0.25.1&quot;
+  },
+  &quot;method&quot;: &quot;Sequential alternating order; 1 warmup per engine; end-to-end CLI diff + JSON to /dev/null; warm filesystem cache; release Rust; single CPU affinity; no compile time.&quot;,
+  &quot;rust_binary_sha256&quot;: &quot;852051050005b0810ae89e42c12424d2dfd00fb7d23d3f5db17bc83452e000bb&quot;,
+  &quot;pinned_cpu&quot;: 0
+}</pre></details>
+<p><b>Wniosek:</b> dla samodzielnego, regularnie używanego CLI wybieram Rust. Python pozostaje dobrym środowiskiem do eksperymentów nad reprezentacją, pomiarów jakości i integracji modeli. Wyniki nie dowodzą, że Rust zawsze wymaga mniej pamięci ani że daje lepszą detekcję. Nie zmierzono kosztu utrzymania, zimnego cache, różnych systemów plików ani repozytoriów produkcyjnych.</p>
+
+<h2>3. Zgodność i rozbieżności</h2>
+<p>Mały korpus: po 29 plików na projekt i 30 pozycji porównania po dopasowaniu. Na 17 poprawnie parsowanych plikach JS/TS/TSX/PHP/Bash zgodne były wszystkie 9 sprawdzanych pól: hash bajtów, hash składni, hash nazw, shingles, liczba węzłów, deklaracje, importy, wywołania i logika. Inwentaryzacja i wykryty cykl importów także były zgodne.</p>
+<table><thead><tr><th>Przypadek</th><th>Python ast</th><th>Rust + CST</th><th>Interpretacja</th></tr></thead><tbody>
+<tr><td><code>'hello'</code> → <code>"hello"</code></td><td>syntax-equal</td><td>changed</td><td>AST przechowuje wartość, CST zachowuje zapis delimitera.</td></tr>
+<tr><td><code>1 + 2</code> → <code>(1 + 2)</code></td><td>syntax-equal</td><td>changed</td><td>Nadmiarowe nawiasy znikają w AST, pozostają w CST.</td></tr></tbody></table>
+<p>To 2 różnice na 30 klasyfikacji między wariantami; nie ma podstaw, by przypisywać je samemu językowi Rust. Rozwiązaniem jest wspólna, wersjonowana reprezentacja pośrednia: selektywne pomijanie nawiasów, normalizacja literałów i świadome rozwiązywanie nazw. Normalizacja musi respektować język: nawiasy i cudzysłowy nie zawsze są obojętne.</p>
+<p>15 testów automatycznych przeszło: zmiany nazw/operatorów/stałych, importy względne, cykle, symlinki, duże pliki, binaria, puste katalogi, brak wykonania kodu, kontrolne znaki terminala, deterministyczność, kody wyjścia, ochrona przed nadpisaniem oraz walidacja odpowiedzi LLM. To testy regresji, nie pomiar precision/recall na reprezentatywnym zbiorze klonów.</p>
+
+<h2>4. Metody algorytmiczne i ich znaczenie</h2>
+<p><b>Fingerprint całego pliku i składni — wdrożone.</b> Dla bajtów <i>b</i>, drzewa <i>T</i> i jawnej funkcji normalizacji <i>N</i>:</p>
+<div class="formula">H<sub>bytes</sub> = SHA256(b)<br>H<sub>syntax</sub> = SHA256(serialize(N(T)))</div>
+<p>Identyczne hashe służą do grupowania bez porównywania każdej pary plików. Kod nie wykonuje dodatkowego porównania bajt po bajcie po zgodności SHA-256. Hash normalizowanego drzewa oznacza zgodną reprezentację według konkretnej wersji parsera i normalizatora. Nie jest dowodem równoważności programów.</p>
+<p><b>Shingles i Jaccard — wdrożone.</b> Tworzymy zbiory <i>S<sub>5</sub></i> hashy kolejnych piątek elementów serializowanego drzewa. Próg 0,70 jest ustawieniem prototypu, nie naukowo optymalną stałą.</p>
+<div class="formula">J(A,B) = |S<sub>5</sub>(A) ∩ S<sub>5</sub>(B)| / |S<sub>5</sub>(A) ∪ S<sub>5</sub>(B)|</div>
+<p>Miara jest symetryczna i mieści się w [0,1]. Zbiór gubi globalną kolejność i liczbę powtórzeń; hashe shingles są 64-bitowe. Nawet J=1 nie dowodzi identyczności kodu. Broder opisuje podobieństwo i zawieranie dokumentów przez przecięcia zbiorów shingles oraz próbkowanie <a href="#r1">[1]</a>.</p>
+<p><b>MinHash i Winnowing — proponowane dla większej skali, niewdrożone.</b> Przy jednostajnie losowej permutacji zbioru cech MinHash ma własność <code>P[minπ(A)=minπ(B)] = J(A,B)</code>. Kilka niezależnych szkiców daje estymację J, a indeks LSH ogranicza zbiór kandydatów. Nie eliminuje konieczności walidacji <a href="#r1">[1]</a>.</p>
+<div class="formula">Winnowing: t = k + w − 1</div>
+<p>Dla k-gramów i okna w hashy Winnowing gwarantuje wybór wspólnego fingerprintu dla identycznego ciągłego fragmentu o długości co najmniej t, przy wspólnej normalizacji i haszowaniu. Nie gwarantuje wykrycia każdej semantycznej kopii. Publikacja: Schleimer, Wilkerson, Aiken, SIGMOD 2003 <a href="#r2">[2]</a>.</p>
+<p><b>Tree Edit Distance / GumTree — proponowany dokładniejszy diff.</b> Minimalny koszt sekwencji operacji na drzewach:</p>
+<div class="formula">TED(T₁,T₂) = min<sub>π: T₁ → T₂</sub> ∑<sub>op ∈ π</sub> cost(op)</div>
+<p>Zhang–Shasha formalizują odległość dla uporządkowanych drzew, z insert/delete/modify i programowaniem dynamicznym <a href="#r3">[3]</a>. GumTree stosuje dopasowanie AST i wykrywa też przeniesienia elementów; jego praktycznego dopasowania nie należy utożsamiać z gwarantowanym optimum TED <a href="#r4">[4]</a>. Obecny Grapholog pokazuje zmienione symbole, lecz nie zwraca listy operacji edycji każdego węzła.</p>
+<p><b>DECKARD i SourcererCC — istniejące narzędzia badawcze.</b> DECKARD porównuje wektory cech poddrzew, aby szukać klonów strukturalnych <a href="#r5">[5]</a>. SourcererCC używa tokenów, indeksu odwróconego i filtrowania kandydatów; oceniano go m.in. na BigCloneBench i mutacjach <a href="#r6">[6]</a>. Nie są zależnościami Graphologa; ich publikacje wspierają wybór kierunku i metod ewaluacji.</p>
+
+<h2>5. Gdzie zaczyna się analiza logiki</h2>
+<p>Drzewo AST/CST mówi, jak zapisano program. Graf importów mówi o relacjach modułów. Pełny CFG dodaje możliwe przejścia sterowania, a PDG wiąże operacje zależnościami danych i sterowania <a href="#r7">[7]</a>. Lista <code>if/for/return/call</code> w 0.1 jest zarysem składni, nie kompletnym CFG.</p>
+<p>Wdrożona analiza cykli to składowe silnie spójne grafu lokalnych kandydatów, wyznaczane iteracyjnie algorytmem Kosaraju. Sama faza przejścia grafu jest O(V+E); sortowanie dla deterministycznego wyjścia dodaje koszt. Cykl w tym grafie nie dowodzi, że wszystkie importy wykonają się w każdej konfiguracji.</p>
+<p>Kolejny krok: identyfikatory wiązań zamiast normalizacji wszystkich nazw, krawędzie <code>defines/reads/writes/calls/imports</code>, adaptery rozwiązywania symboli z konfiguracji projektu, a potem CFG/PDG. Porównywanie implementacji w różnych językach wymaga wspólnego modelu operacji i kontraktów. Same hashe drzew Python/Rust nie będą do tego wystarczające.</p>
+
+<h2>6. Jak połączyć z LLM</h2>
+<ol><li><b>Deterministyczny silnik</b> wytwarza JSON ze ścieżkami, hashami, symbolami, numerami linii i statusem pewności linku.</li>
+<li><b>Wybór kontekstu</b> pobiera różniące się symbole, grupy klonów i sąsiadów w grafie. Indeks wektorowy może rozszerzyć wyszukiwanie o podobne funkcje; nie zastępuje faktów grafu.</li>
+<li><b>LLM</b> tłumaczy zmianę, proponuje wspólny moduł, wskazuje możliwe skutki i test rozstrzygający. Każdy wniosek odwołuje się do identyfikatorów dowodów.</li>
+<li><b>Walidator</b> sprawdza format i istnienie wskazanych dowodów. Testy jednostkowe, właściwości i porównanie zachowania odpowiadają za dalszą weryfikację. Przejście testów też nie stanowi pełnego dowodu dla dowolnych wejść.</li></ol>
+<pre>grapholog-rs diff ./A ./B --format json &gt; /tmp/diff.json
+grapholog-llm prepare /tmp/diff.json --max-chars 40000 &gt; /tmp/packet.json
+# Przekaż messages + response_schema do wybranego LLM.
+grapholog-llm validate /tmp/packet.json /tmp/reply.json</pre>
+<p>Eksporter i walidator działają. Pakiet zawiera instrukcję modelu, rekordy dowodowe, identyfikatory, hash raportu i informację o pominiętym kontekście. Odpowiedź ma pola <code>kind: fact|hypothesis</code>, <code>summary</code>, <code>evidence_ids</code>, <code>confidence</code> i <code>suggested_test</code>. Confidence jest subiektywną oceną modelu, nie skalibrowanym prawdopodobieństwem. Nie wywołano modelu, więc nie ma jeszcze pomiaru jego trafności, ceny ani latencji.</p>
+<p>Podstawa badawcza dla łączenia struktury programu i modeli: GraphCodeBERT używa przepływu danych podczas uczenia i ocenia m.in. wyszukiwanie kodu oraz wykrywanie klonów <a href="#r8">[8]</a>. To wynik dla konkretnej metody i eksperymentów, nie dowód, że dowolny model z dołączonym JSON będzie poprawny.</p>
+<p>Do produkcji proponuję Rust jako CLI/usługę analizy i Python jako opcjonalny proces badań/LLM, połączone wersjonowanym JSON. Usługa lokalnego modelu może dostać tylko wybrane podgrafy. Kontekst traktujemy jako dane; instrukcje w nazwach, komentarzach lub plikach nie stają się poleceniami aplikacji. Warstwa LLM nie zmienia wykrytych hashy i nie publikuje automatycznie poprawek.</p>
+
+<h2>7. Jak rzetelnie rozszerzyć badanie</h2>
+<p>Potrzebny jest niezależny, opisany zbiór prawdziwych klonów i zmian z kilku języków. Oddzielamy dokładne kopie, normalizację nazw, modyfikacje bloków oraz podobieństwo zachowania. Progi dobieramy na zbiorze walidacyjnym, a raportujemy na osobnym zbiorze testowym.</p>
+<div class="formula">Precision = TP / (TP + FP)<br>Recall = TP / (TP + FN)<br>F₁ = 2 · Precision · Recall / (Precision + Recall)</div>
+<p>Nie podaję wartości tych miar dla obecnego prototypu: 30 ręcznie przygotowanych przypadków regresji nie reprezentuje rozkładu rzeczywistych projektów. Dla LLM należy dodatkowo mierzyć poprawność uzasadnień, udział wymyślonych odniesień, trafność proponowanych testów, koszt tokenów i czas. Porównanie powinno objąć zimny i ciepły cache, pojedyncze wielkie pliki, wiele małych plików i głęboko zagnieżdżony kod.</p>
+
+<h2>Publikacje i dokumentacja</h2><ol>
+<li id="r1">Broder, A. Z. (1997). <a href="https://www.cs.princeton.edu/courses/archive/spr05/cos598E/bib/broder97resemblance.pdf">On the Resemblance and Containment of Documents</a>. DOI: 10.1109/SEQUEN.1997.666900.</li>
+<li id="r2">Schleimer, S., Wilkerson, D. S., Aiken, A. (2003). <a href="https://theory.stanford.edu/~aiken/publications/papers/sigmod03.pdf">Winnowing: Local Algorithms for Document Fingerprinting</a>, SIGMOD. <a href="https://sschleimer.warwick.ac.uk/Maths/winnowing.html">Errata autorów</a>.</li>
+<li id="r3">Zhang, K., Shasha, D. (1989). <a href="https://epubs.siam.org/doi/10.1137/0218082">Simple Fast Algorithms for the Editing Distance between Trees and Related Problems</a>, SIAM J. Comput.</li>
+<li id="r4">Falleri i in. (2014). <a href="https://doi.org/10.1145/2642937.2642982">Fine-grained and accurate source code differencing</a>, ASE. <a href="https://github.com/GumTreeDiff/gumtree">Oficjalne repozytorium GumTree</a> zawiera też publikację ICSE 2024.</li>
+<li id="r5">Jiang, L., Misherghi, G., Su, Z., Glondu, S. (2007). <a href="https://web.cs.ucdavis.edu/~su/publications/icse07.pdf">DECKARD: Scalable and Accurate Tree-based Detection of Code Clones</a>, ICSE.</li>
+<li id="r6">Sajnani, H. i in. (2016). <a href="https://arxiv.org/abs/1512.06448">SourcererCC: Scaling Code Clone Detection to Big Code</a>, ICSE. Preprint z 2015.</li>
+<li id="r7">Ferrante, J., Ottenstein, K. J., Warren, J. D. (1987). <a href="https://research.ibm.com/publications/the-program-dependence-graph-and-its-use-in-optimization">The Program Dependence Graph and Its Use in Optimization</a>, TOPLAS.</li>
+<li id="r8">Guo, D. i in. (2021). <a href="https://arxiv.org/abs/2009.08366">GraphCodeBERT: Pre-training Code Representations with Data Flow</a>, ICLR. Preprint z 2020.</li>
+<li><a href="https://docs.python.org/3.12/library/ast.html">Python AST</a>; <a href="https://tree-sitter.github.io/py-tree-sitter/">Tree-sitter Python binding</a>.</li></ol>
+<footer class="muted">W paczce: źródła obu silników, binarka, Python wheel i pyz, Cargo.lock, generator korpusów, harness pomiarowy, surowe wyniki JSON, testy, przykłady, README oraz informacje o licencjach zależności. Raport jest samodzielnym HTML bez zewnętrznych skryptów.</footer></main></html>

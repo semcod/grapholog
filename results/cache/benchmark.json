@@ -1,0 +1,1402 @@
+{
+  "environment": {
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "single_cpu": [
+      0
+    ],
+    "parallel_cpus": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "workers": 4,
+    "cpu_quota": "800000 100000",
+    "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+    "method": "Alternating sequential variants, one warmup, 7 repeats by default. CLI diff + complete pretty JSON to /dev/null. wait4 peak child RSS. Cold = empty parse cache, warm OS cache. Single CPU except explicit parallel variants. Cache cleanup and compilation outside timed region.",
+    "packages": {
+      "tree-sitter": "0.25.2",
+      "tree-sitter-javascript": "0.25.0",
+      "tree-sitter-typescript": "0.23.2",
+      "tree-sitter-php": "0.24.1",
+      "tree-sitter-bash": "0.25.1"
+    },
+    "rust_binary_sha256": {
+      "0.2": "6aecb91fe192eeaf2bf130f9d80ed920b0c58be0d665010efc005744c904fa90",
+      "0.3": "f4b82dd2b8434cb1055af813fa33406f2ef5318f16d861cfa46c78e66241b80f"
+    }
+  },
+  "compatibility": {
+    "python-scan-off": true,
+    "python-scan-cold": true,
+    "python-scan-warm": true,
+    "python-diff-off": true,
+    "python-diff-cold": true,
+    "python-diff-warm": true,
+    "rust-scan-off": true,
+    "rust-scan-cold": true,
+    "rust-scan-warm": true,
+    "rust-diff-off": true,
+    "rust-diff-cold": true,
+    "rust-diff-warm": true
+  },
+  "benchmarks": [
+    {
+      "name": "many-small-1500",
+      "files_per_project": 1500,
+      "functions_per_ts_file": 1,
+      "bytes_per_project": 136560,
+      "summary": {
+        "python-0.2": {
+          "median_seconds": 1.918077507,
+          "min_seconds": 1.865109007,
+          "max_seconds": 2.24708021,
+          "median_peak_rss_mib": 49.96875
+        },
+        "python-0.3-off": {
+          "median_seconds": 1.993225877,
+          "min_seconds": 1.84619517,
+          "max_seconds": 2.211457429,
+          "median_peak_rss_mib": 51.91015625
+        },
+        "python-0.3-cold": {
+          "median_seconds": 2.796469984,
+          "min_seconds": 2.385526426,
+          "max_seconds": 2.953803262,
+          "median_peak_rss_mib": 52.59765625
+        },
+        "python-0.3-warm": {
+          "median_seconds": 1.463840954,
+          "min_seconds": 1.243054733,
+          "max_seconds": 1.585953281,
+          "median_peak_rss_mib": 51.0
+        },
+        "rust-0.2": {
+          "median_seconds": 0.531307851,
+          "min_seconds": 0.43450825,
+          "max_seconds": 0.589115135,
+          "median_peak_rss_mib": 34.18359375
+        },
+        "rust-0.3-off": {
+          "median_seconds": 0.506813796,
+          "min_seconds": 0.486074875,
+          "max_seconds": 0.581674179,
+          "median_peak_rss_mib": 34.1015625
+        },
+        "rust-0.3-cold": {
+          "median_seconds": 0.754491905,
+          "min_seconds": 0.670872707,
+          "max_seconds": 0.896604938,
+          "median_peak_rss_mib": 34.37109375
+        },
+        "rust-0.3-warm": {
+          "median_seconds": 0.161977312,
+          "min_seconds": 0.151409117,
+          "max_seconds": 0.19778298,
+          "median_peak_rss_mib": 33.390625
+        },
+        "rust-0.3-jobs4-off": {
+          "median_seconds": 0.226400276,
+          "min_seconds": 0.201137872,
+          "max_seconds": 0.255994641,
+          "median_peak_rss_mib": 35.56640625
+        },
+        "rust-0.3-jobs4-warm": {
+          "median_seconds": 0.106011024,
+          "min_seconds": 0.102582958,
+          "max_seconds": 0.133414351,
+          "median_peak_rss_mib": 34.21484375
+        }
+      },
+      "samples": {
+        "python-0.2": [
+          {
+            "wall_seconds": 2.025780409,
+            "peak_rss_kib": 51548,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.097868203,
+            "peak_rss_kib": 51168,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.918077507,
+            "peak_rss_kib": 51404,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.24708021,
+            "peak_rss_kib": 51296,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.902267789,
+            "peak_rss_kib": 50976,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.907932006,
+            "peak_rss_kib": 50996,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.865109007,
+            "peak_rss_kib": 50952,
+            "exit_code": 0
+          }
+        ],
+        "python-0.3-off": [
+          {
+            "wall_seconds": 1.986687754,
+            "peak_rss_kib": 53212,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.01331907,
+            "peak_rss_kib": 53100,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.993225877,
+            "peak_rss_kib": 53084,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.114998329,
+            "peak_rss_kib": 53172,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.84619517,
+            "peak_rss_kib": 53152,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.211457429,
+            "peak_rss_kib": 53156,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.98788236,
+            "peak_rss_kib": 53588,
+            "exit_code": 0
+          }
+        ],
+        "python-0.3-cold": [
+          {
+            "wall_seconds": 2.385526426,
+            "peak_rss_kib": 53724,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.694109653,
+            "peak_rss_kib": 53860,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.953803262,
+            "peak_rss_kib": 54244,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.845363072,
+            "peak_rss_kib": 53764,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.825782147,
+            "peak_rss_kib": 54116,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.796469984,
+            "peak_rss_kib": 54208,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.582531169,
+            "peak_rss_kib": 53748,
+            "exit_code": 0
+          }
+        ],
+        "python-0.3-warm": [
+          {
+            "wall_seconds": 1.483616607,
+            "peak_rss_kib": 52224,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.276375024,
+            "peak_rss_kib": 52224,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.243054733,
+            "peak_rss_kib": 52224,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.463840954,
+            "peak_rss_kib": 52224,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.521751716,
+            "peak_rss_kib": 52224,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.585953281,
+            "peak_rss_kib": 52224,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.366585372,
+            "peak_rss_kib": 52276,
+            "exit_code": 0
+          }
+        ],
+        "rust-0.2": [
+          {
+            "wall_seconds": 0.589115135,
+            "peak_rss_kib": 35064,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.457524865,
+            "peak_rss_kib": 34896,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.43450825,
+            "peak_rss_kib": 34968,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.552953327,
+            "peak_rss_kib": 34948,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.479092036,
+            "peak_rss_kib": 35004,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.531307851,
+            "peak_rss_kib": 35052,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.536193535,
+            "peak_rss_kib": 35060,
+            "exit_code": 0
+          }
+        ],
+        "rust-0.3-off": [
+          {
+            "wall_seconds": 0.56446028,
+            "peak_rss_kib": 34908,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.513645476,
+            "peak_rss_kib": 34924,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.506813796,
+            "peak_rss_kib": 35004,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.486074875,
+            "peak_rss_kib": 34920,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.502064537,
+            "peak_rss_kib": 34872,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.499326885,
+            "peak_rss_kib": 34956,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.581674179,
+            "peak_rss_kib": 34872,
+            "exit_code": 0
+          }
+        ],
+        "rust-0.3-cold": [
+          {
+            "wall_seconds": 0.67779781,
+            "peak_rss_kib": 35196,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.806364482,
+            "peak_rss_kib": 35140,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.754491905,
+            "peak_rss_kib": 35064,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.896604938,
+            "peak_rss_kib": 35196,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.831868782,
+            "peak_rss_kib": 35320,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.670872707,
+            "peak_rss_kib": 35280,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.689574534,
+            "peak_rss_kib": 35148,
+            "exit_code": 0
+          }
+        ],
+        "rust-0.3-warm": [
+          {
+            "wall_seconds": 0.15723957,
+            "peak_rss_kib": 34192,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.19778298,
+            "peak_rss_kib": 34100,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.151409117,
+            "peak_rss_kib": 34232,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.168946507,
+            "peak_rss_kib": 34232,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.164317478,
+            "peak_rss_kib": 34188,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.151838422,
+            "peak_rss_kib": 34184,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.161977312,
+            "peak_rss_kib": 34272,
+            "exit_code": 0
+          }
+        ],
+        "rust-0.3-jobs4-off": [
+          {
+            "wall_seconds": 0.207608559,
+            "peak_rss_kib": 36412,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.255994641,
+            "peak_rss_kib": 36420,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.201137872,
+            "peak_rss_kib": 36388,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.22867748,
+            "peak_rss_kib": 36456,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.214762408,
+            "peak_rss_kib": 36432,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.226400276,
+            "peak_rss_kib": 36316,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.233637815,
+            "peak_rss_kib": 36440,
+            "exit_code": 0
+          }
+        ],
+        "rust-0.3-jobs4-warm": [
+          {
+            "wall_seconds": 0.12126723,
+            "peak_rss_kib": 35048,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.104525046,
+            "peak_rss_kib": 35188,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.102582958,
+            "peak_rss_kib": 35036,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.133414351,
+            "peak_rss_kib": 34968,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.10366759,
+            "peak_rss_kib": 35052,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.106011024,
+            "peak_rss_kib": 34860,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.12263983,
+            "peak_rss_kib": 34988,
+            "exit_code": 0
+          }
+        ]
+      },
+      "full_analysis_equal_to_0_2": {
+        "python-0.2": true,
+        "python-0.3-off": true,
+        "python-0.3-cold": true,
+        "python-0.3-warm": true,
+        "rust-0.2": true,
+        "rust-0.3-off": true,
+        "rust-0.3-cold": true,
+        "rust-0.3-warm": true,
+        "rust-0.3-jobs4-off": true,
+        "rust-0.3-jobs4-warm": true
+      },
+      "runtime": {
+        "python-0.2": {
+          "left": {},
+          "right": {}
+        },
+        "python-0.3-off": {
+          "left": {
+            "workers": 1,
+            "cache": {
+              "enabled": false
+            }
+          },
+          "right": {
+            "workers": 1,
+            "cache": {
+              "enabled": false
+            }
+          }
+        },
+        "python-0.3-cold": {
+          "left": {
+            "workers": 1,
+            "cache": {
+              "enabled": true,
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/cold-cache-435z90g2",
+              "hits": 0,
+              "misses": 1000,
+              "writes": 1000,
+              "invalid": 0,
+              "errors": 0,
+              "skipped_large": 0,
+              "issues": [],
+              "namespace": "cefb6ded69ba4e4b17791074d2cd231d24897b68f885b70ee75c9f92e25dee53"
+            }
+          },
+          "right": {
+            "workers": 1,
+            "cache": {
+              "enabled": true,
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/cold-cache-435z90g2",
+              "hits": 700,
+              "misses": 300,
+              "writes": 300,
+              "invalid": 0,
+              "errors": 0,
+              "skipped_large": 0,
+              "issues": [],
+              "namespace": "cefb6ded69ba4e4b17791074d2cd231d24897b68f885b70ee75c9f92e25dee53"
+            }
+          }
+        },
+        "python-0.3-warm": {
+          "left": {
+            "workers": 1,
+            "cache": {
+              "enabled": true,
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/warm-cache-lp9uk6qk",
+              "hits": 1000,
+              "misses": 0,
+              "writes": 0,
+              "invalid": 0,
+              "errors": 0,
+              "skipped_large": 0,
+              "issues": [],
+              "namespace": "cefb6ded69ba4e4b17791074d2cd231d24897b68f885b70ee75c9f92e25dee53"
+            }
+          },
+          "right": {
+            "workers": 1,
+            "cache": {
+              "enabled": true,
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/warm-cache-lp9uk6qk",
+              "hits": 1000,
+              "misses": 0,
+              "writes": 0,
+              "invalid": 0,
+              "errors": 0,
+              "skipped_large": 0,
+              "issues": [],
+              "namespace": "cefb6ded69ba4e4b17791074d2cd231d24897b68f885b70ee75c9f92e25dee53"
+            }
+          }
+        },
+        "rust-0.2": {
+          "left": {},
+          "right": {}
+        },
+        "rust-0.3-off": {
+          "left": {
+            "cache": {
+              "enabled": false
+            },
+            "workers": 1
+          },
+          "right": {
+            "cache": {
+              "enabled": false
+            },
+            "workers": 1
+          }
+        },
+        "rust-0.3-cold": {
+          "left": {
+            "cache": {
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/cold-cache-i6sqwaiv",
+              "enabled": true,
+              "errors": 0,
+              "hits": 0,
+              "invalid": 0,
+              "issues": [],
+              "misses": 1000,
+              "namespace": "b2ae904efc94495555cb0cd1ab9533843367022ff9dd2a04f9bb1d8eed9e9b8e",
+              "skipped_large": 0,
+              "writes": 1000
+            },
+            "workers": 1
+          },
+          "right": {
+            "cache": {
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/cold-cache-i6sqwaiv",
+              "enabled": true,
+              "errors": 0,
+              "hits": 700,
+              "invalid": 0,
+              "issues": [],
+              "misses": 300,
+              "namespace": "b2ae904efc94495555cb0cd1ab9533843367022ff9dd2a04f9bb1d8eed9e9b8e",
+              "skipped_large": 0,
+              "writes": 300
+            },
+            "workers": 1
+          }
+        },
+        "rust-0.3-warm": {
+          "left": {
+            "cache": {
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/warm-cache-l_lwp2g2",
+              "enabled": true,
+              "errors": 0,
+              "hits": 1000,
+              "invalid": 0,
+              "issues": [],
+              "misses": 0,
+              "namespace": "b2ae904efc94495555cb0cd1ab9533843367022ff9dd2a04f9bb1d8eed9e9b8e",
+              "skipped_large": 0,
+              "writes": 0
+            },
+            "workers": 1
+          },
+          "right": {
+            "cache": {
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/warm-cache-l_lwp2g2",
+              "enabled": true,
+              "errors": 0,
+              "hits": 1000,
+              "invalid": 0,
+              "issues": [],
+              "misses": 0,
+              "namespace": "b2ae904efc94495555cb0cd1ab9533843367022ff9dd2a04f9bb1d8eed9e9b8e",
+              "skipped_large": 0,
+              "writes": 0
+            },
+            "workers": 1
+          }
+        },
+        "rust-0.3-jobs4-off": {
+          "left": {
+            "cache": {
+              "enabled": false
+            },
+            "workers": 4
+          },
+          "right": {
+            "cache": {
+              "enabled": false
+            },
+            "workers": 4
+          }
+        },
+        "rust-0.3-jobs4-warm": {
+          "left": {
+            "cache": {
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/warm-cache-nq4zdes9",
+              "enabled": true,
+              "errors": 0,
+              "hits": 1000,
+              "invalid": 0,
+              "issues": [],
+              "misses": 0,
+              "namespace": "b2ae904efc94495555cb0cd1ab9533843367022ff9dd2a04f9bb1d8eed9e9b8e",
+              "skipped_large": 0,
+              "writes": 0
+            },
+            "workers": 4
+          },
+          "right": {
+            "cache": {
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/warm-cache-nq4zdes9",
+              "enabled": true,
+              "errors": 0,
+              "hits": 1000,
+              "invalid": 0,
+              "issues": [],
+              "misses": 0,
+              "namespace": "b2ae904efc94495555cb0cd1ab9533843367022ff9dd2a04f9bb1d8eed9e9b8e",
+              "skipped_large": 0,
+              "writes": 0
+            },
+            "workers": 4
+          }
+        }
+      },
+      "cache_disk": {
+        "python-0.3-warm": {
+          "entries": 1300,
+          "bytes": 5367621
+        },
+        "rust-0.3-warm": {
+          "entries": 1300,
+          "bytes": 5367621
+        },
+        "rust-0.3-jobs4-warm": {
+          "entries": 1300,
+          "bytes": 5367621
+        }
+      }
+    },
+    {
+      "name": "dense-60",
+      "files_per_project": 60,
+      "functions_per_ts_file": 100,
+      "bytes_per_project": 348895,
+      "summary": {
+        "python-0.2": {
+          "median_seconds": 2.216015528,
+          "min_seconds": 2.03062826,
+          "max_seconds": 2.490586806,
+          "median_peak_rss_mib": 34.55859375
+        },
+        "python-0.3-off": {
+          "median_seconds": 2.163239391,
+          "min_seconds": 2.054116402,
+          "max_seconds": 2.352446308,
+          "median_peak_rss_mib": 36.4296875
+        },
+        "python-0.3-cold": {
+          "median_seconds": 1.993443449,
+          "min_seconds": 1.927463925,
+          "max_seconds": 2.256885971,
+          "median_peak_rss_mib": 37.12109375
+        },
+        "python-0.3-warm": {
+          "median_seconds": 0.598402857,
+          "min_seconds": 0.546208752,
+          "max_seconds": 0.664700571,
+          "median_peak_rss_mib": 36.625
+        },
+        "rust-0.2": {
+          "median_seconds": 0.758222918,
+          "min_seconds": 0.702933888,
+          "max_seconds": 0.791200011,
+          "median_peak_rss_mib": 16.9296875
+        },
+        "rust-0.3-off": {
+          "median_seconds": 0.707502375,
+          "min_seconds": 0.675930983,
+          "max_seconds": 0.774294279,
+          "median_peak_rss_mib": 16.85546875
+        },
+        "rust-0.3-cold": {
+          "median_seconds": 0.645712701,
+          "min_seconds": 0.580693247,
+          "max_seconds": 0.694736867,
+          "median_peak_rss_mib": 17.0546875
+        },
+        "rust-0.3-warm": {
+          "median_seconds": 0.058708061,
+          "min_seconds": 0.055727169,
+          "max_seconds": 0.073254582,
+          "median_peak_rss_mib": 14.37890625
+        },
+        "rust-0.3-jobs4-off": {
+          "median_seconds": 0.273571975,
+          "min_seconds": 0.247012044,
+          "max_seconds": 0.311232342,
+          "median_peak_rss_mib": 28.3046875
+        },
+        "rust-0.3-jobs4-warm": {
+          "median_seconds": 0.048622809,
+          "min_seconds": 0.042991184,
+          "max_seconds": 0.051828811,
+          "median_peak_rss_mib": 14.93359375
+        }
+      },
+      "samples": {
+        "python-0.2": [
+          {
+            "wall_seconds": 2.03062826,
+            "peak_rss_kib": 35388,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.039996552,
+            "peak_rss_kib": 35436,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.28541287,
+            "peak_rss_kib": 35372,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.490586806,
+            "peak_rss_kib": 35580,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.216015528,
+            "peak_rss_kib": 35588,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.248908411,
+            "peak_rss_kib": 35120,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.182932836,
+            "peak_rss_kib": 35076,
+            "exit_code": 0
+          }
+        ],
+        "python-0.3-off": [
+          {
+            "wall_seconds": 2.163239391,
+            "peak_rss_kib": 37628,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.352446308,
+            "peak_rss_kib": 37304,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.054116402,
+            "peak_rss_kib": 37288,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.201456383,
+            "peak_rss_kib": 37232,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.152636462,
+            "peak_rss_kib": 37224,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.346602371,
+            "peak_rss_kib": 37344,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.122427258,
+            "peak_rss_kib": 37644,
+            "exit_code": 0
+          }
+        ],
+        "python-0.3-cold": [
+          {
+            "wall_seconds": 1.989260413,
+            "peak_rss_kib": 37660,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.030129766,
+            "peak_rss_kib": 38084,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.993443449,
+            "peak_rss_kib": 37996,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.974483656,
+            "peak_rss_kib": 38012,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 1.927463925,
+            "peak_rss_kib": 38232,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.256885971,
+            "peak_rss_kib": 37648,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 2.044230575,
+            "peak_rss_kib": 38060,
+            "exit_code": 0
+          }
+        ],
+        "python-0.3-warm": [
+          {
+            "wall_seconds": 0.598402857,
+            "peak_rss_kib": 37504,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.546208752,
+            "peak_rss_kib": 37504,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.636987629,
+            "peak_rss_kib": 37504,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.564437188,
+            "peak_rss_kib": 37504,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.598580464,
+            "peak_rss_kib": 37504,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.664700571,
+            "peak_rss_kib": 37504,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.588399807,
+            "peak_rss_kib": 37504,
+            "exit_code": 0
+          }
+        ],
+        "rust-0.2": [
+          {
+            "wall_seconds": 0.761365211,
+            "peak_rss_kib": 17332,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.706727065,
+            "peak_rss_kib": 17352,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.702933888,
+            "peak_rss_kib": 17368,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.759291554,
+            "peak_rss_kib": 17336,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.758222918,
+            "peak_rss_kib": 17304,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.791200011,
+            "peak_rss_kib": 17292,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.718295766,
+            "peak_rss_kib": 17356,
+            "exit_code": 0
+          }
+        ],
+        "rust-0.3-off": [
+          {
+            "wall_seconds": 0.675930983,
+            "peak_rss_kib": 17188,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.774294279,
+            "peak_rss_kib": 17372,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.727533622,
+            "peak_rss_kib": 16968,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.748808401,
+            "peak_rss_kib": 17304,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.685239564,
+            "peak_rss_kib": 17164,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.696021642,
+            "peak_rss_kib": 17276,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.707502375,
+            "peak_rss_kib": 17260,
+            "exit_code": 0
+          }
+        ],
+        "rust-0.3-cold": [
+          {
+            "wall_seconds": 0.580693247,
+            "peak_rss_kib": 17252,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.645712701,
+            "peak_rss_kib": 17372,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.592865683,
+            "peak_rss_kib": 17480,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.694736867,
+            "peak_rss_kib": 17428,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.638857983,
+            "peak_rss_kib": 17464,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.682200171,
+            "peak_rss_kib": 17548,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.683580382,
+            "peak_rss_kib": 17516,
+            "exit_code": 0
+          }
+        ],
+        "rust-0.3-warm": [
+          {
+            "wall_seconds": 0.058708061,
+            "peak_rss_kib": 14676,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.055727169,
+            "peak_rss_kib": 14720,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.057323003,
+            "peak_rss_kib": 14796,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.056373321,
+            "peak_rss_kib": 14628,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.060349754,
+            "peak_rss_kib": 14760,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.059895864,
+            "peak_rss_kib": 14724,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.073254582,
+            "peak_rss_kib": 14796,
+            "exit_code": 0
+          }
+        ],
+        "rust-0.3-jobs4-off": [
+          {
+            "wall_seconds": 0.253893809,
+            "peak_rss_kib": 28824,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.260351927,
+            "peak_rss_kib": 28876,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.247012044,
+            "peak_rss_kib": 28996,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.311232342,
+            "peak_rss_kib": 28068,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.273571975,
+            "peak_rss_kib": 28984,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.298800441,
+            "peak_rss_kib": 29348,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.30325213,
+            "peak_rss_kib": 29440,
+            "exit_code": 0
+          }
+        ],
+        "rust-0.3-jobs4-warm": [
+          {
+            "wall_seconds": 0.042991184,
+            "peak_rss_kib": 15160,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.045607587,
+            "peak_rss_kib": 15208,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.043677737,
+            "peak_rss_kib": 15336,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.049419521,
+            "peak_rss_kib": 15136,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.051828811,
+            "peak_rss_kib": 15356,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.048622809,
+            "peak_rss_kib": 15304,
+            "exit_code": 0
+          },
+          {
+            "wall_seconds": 0.049838621,
+            "peak_rss_kib": 15292,
+            "exit_code": 0
+          }
+        ]
+      },
+      "full_analysis_equal_to_0_2": {
+        "python-0.2": true,
+        "python-0.3-off": true,
+        "python-0.3-cold": true,
+        "python-0.3-warm": true,
+        "rust-0.2": true,
+        "rust-0.3-off": true,
+        "rust-0.3-cold": true,
+        "rust-0.3-warm": true,
+        "rust-0.3-jobs4-off": true,
+        "rust-0.3-jobs4-warm": true
+      },
+      "runtime": {
+        "python-0.2": {
+          "left": {},
+          "right": {}
+        },
+        "python-0.3-off": {
+          "left": {
+            "workers": 1,
+            "cache": {
+              "enabled": false
+            }
+          },
+          "right": {
+            "workers": 1,
+            "cache": {
+              "enabled": false
+            }
+          }
+        },
+        "python-0.3-cold": {
+          "left": {
+            "workers": 1,
+            "cache": {
+              "enabled": true,
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/cold-cache-qnuax4rn",
+              "hits": 0,
+              "misses": 40,
+              "writes": 40,
+              "invalid": 0,
+              "errors": 0,
+              "skipped_large": 0,
+              "issues": [],
+              "namespace": "cefb6ded69ba4e4b17791074d2cd231d24897b68f885b70ee75c9f92e25dee53"
+            }
+          },
+          "right": {
+            "workers": 1,
+            "cache": {
+              "enabled": true,
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/cold-cache-qnuax4rn",
+              "hits": 28,
+              "misses": 12,
+              "writes": 12,
+              "invalid": 0,
+              "errors": 0,
+              "skipped_large": 0,
+              "issues": [],
+              "namespace": "cefb6ded69ba4e4b17791074d2cd231d24897b68f885b70ee75c9f92e25dee53"
+            }
+          }
+        },
+        "python-0.3-warm": {
+          "left": {
+            "workers": 1,
+            "cache": {
+              "enabled": true,
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/warm-cache-747bxi0y",
+              "hits": 40,
+              "misses": 0,
+              "writes": 0,
+              "invalid": 0,
+              "errors": 0,
+              "skipped_large": 0,
+              "issues": [],
+              "namespace": "cefb6ded69ba4e4b17791074d2cd231d24897b68f885b70ee75c9f92e25dee53"
+            }
+          },
+          "right": {
+            "workers": 1,
+            "cache": {
+              "enabled": true,
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/warm-cache-747bxi0y",
+              "hits": 40,
+              "misses": 0,
+              "writes": 0,
+              "invalid": 0,
+              "errors": 0,
+              "skipped_large": 0,
+              "issues": [],
+              "namespace": "cefb6ded69ba4e4b17791074d2cd231d24897b68f885b70ee75c9f92e25dee53"
+            }
+          }
+        },
+        "rust-0.2": {
+          "left": {},
+          "right": {}
+        },
+        "rust-0.3-off": {
+          "left": {
+            "cache": {
+              "enabled": false
+            },
+            "workers": 1
+          },
+          "right": {
+            "cache": {
+              "enabled": false
+            },
+            "workers": 1
+          }
+        },
+        "rust-0.3-cold": {
+          "left": {
+            "cache": {
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/cold-cache-vch5a41g",
+              "enabled": true,
+              "errors": 0,
+              "hits": 0,
+              "invalid": 0,
+              "issues": [],
+              "misses": 40,
+              "namespace": "b2ae904efc94495555cb0cd1ab9533843367022ff9dd2a04f9bb1d8eed9e9b8e",
+              "skipped_large": 0,
+              "writes": 40
+            },
+            "workers": 1
+          },
+          "right": {
+            "cache": {
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/cold-cache-vch5a41g",
+              "enabled": true,
+              "errors": 0,
+              "hits": 28,
+              "invalid": 0,
+              "issues": [],
+              "misses": 12,
+              "namespace": "b2ae904efc94495555cb0cd1ab9533843367022ff9dd2a04f9bb1d8eed9e9b8e",
+              "skipped_large": 0,
+              "writes": 12
+            },
+            "workers": 1
+          }
+        },
+        "rust-0.3-warm": {
+          "left": {
+            "cache": {
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/warm-cache-ok4gnizu",
+              "enabled": true,
+              "errors": 0,
+              "hits": 40,
+              "invalid": 0,
+              "issues": [],
+              "misses": 0,
+              "namespace": "b2ae904efc94495555cb0cd1ab9533843367022ff9dd2a04f9bb1d8eed9e9b8e",
+              "skipped_large": 0,
+              "writes": 0
+            },
+            "workers": 1
+          },
+          "right": {
+            "cache": {
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/warm-cache-ok4gnizu",
+              "enabled": true,
+              "errors": 0,
+              "hits": 40,
+              "invalid": 0,
+              "issues": [],
+              "misses": 0,
+              "namespace": "b2ae904efc94495555cb0cd1ab9533843367022ff9dd2a04f9bb1d8eed9e9b8e",
+              "skipped_large": 0,
+              "writes": 0
+            },
+            "workers": 1
+          }
+        },
+        "rust-0.3-jobs4-off": {
+          "left": {
+            "cache": {
+              "enabled": false
+            },
+            "workers": 4
+          },
+          "right": {
+            "cache": {
+              "enabled": false
+            },
+            "workers": 4
+          }
+        },
+        "rust-0.3-jobs4-warm": {
+          "left": {
+            "cache": {
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/warm-cache-r_5p0rgg",
+              "enabled": true,
+              "errors": 0,
+              "hits": 40,
+              "invalid": 0,
+              "issues": [],
+              "misses": 0,
+              "namespace": "b2ae904efc94495555cb0cd1ab9533843367022ff9dd2a04f9bb1d8eed9e9b8e",
+              "skipped_large": 0,
+              "writes": 0
+            },
+            "workers": 4
+          },
+          "right": {
+            "cache": {
+              "directory": "/workspace/scratch/a9449883e173/cache-benchmark/warm-cache-r_5p0rgg",
+              "enabled": true,
+              "errors": 0,
+              "hits": 40,
+              "invalid": 0,
+              "issues": [],
+              "misses": 0,
+              "namespace": "b2ae904efc94495555cb0cd1ab9533843367022ff9dd2a04f9bb1d8eed9e9b8e",
+              "skipped_large": 0,
+              "writes": 0
+            },
+            "workers": 4
+          }
+        }
+      },
+      "cache_disk": {
+        "python-0.3-warm": {
+          "entries": 52,
+          "bytes": 3534031
+        },
+        "rust-0.3-warm": {
+          "entries": 52,
+          "bytes": 3534031
+        },
+        "rust-0.3-jobs4-warm": {
+          "entries": 52,
+          "bytes": 3534031
+        }
+      }
+    }
+  ]
+}

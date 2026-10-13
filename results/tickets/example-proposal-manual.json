@@ -1,0 +1,26 @@
+{
+  "schema": "grapholog.refactor-proposals.v1",
+  "snapshot_id": "5cd4f75b55171f409310620e87c443e0dca346a19adc9d4578cc9ce5bf82e5d8",
+  "recommendations": [
+    {
+      "group_id": "g_e10e710efec2469856bfb3e6f1c2e885",
+      "decision": "needs_review",
+      "library_name": "shared-key-normalization",
+      "rationale": "Ręcznie napisany przykład, bez wywołania modelu. Trzy funkcje normalizują klucz przez obsługę None oraz str(...).strip().lower(). Grupa kształtu wskazuje kandydata do wspólnej biblioteki; przed decyzją należy sprawdzić kontrakty wywołujących i zgodność licencji.",
+      "evidence_ids": [
+        "s_a0e1474aab63bdcdfbbab47ceb1251bc",
+        "s_ccfd3e2c43ddeedaa7e9148391a4937a",
+        "s_e892a396e27268296dafe1c82682da54"
+      ],
+      "risks": [
+        "str(value) może wywoływać kod obiektu; czystość i równoważność semantyczna nie zostały dowiedzione.",
+        "Nie przeprowadzono audytu licencji, zależności ani zgodności kontraktów wszystkich wywołujących."
+      ],
+      "tests": [
+        "Proponowane: None, pusty napis, białe znaki, Unicode, liczba oraz obiekt z własnym __str__.",
+        "Proponowane: testy regresji wywołujących w każdym projekcie po ewentualnym wydzieleniu biblioteki."
+      ],
+      "confidence": 0.5
+    }
+  ]
+}

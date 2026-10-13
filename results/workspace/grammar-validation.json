@@ -1,0 +1,79 @@
+{
+  "validator": "native llama.cpp test-gbnf-validator, bundled with llama-cpp-python 0.3.36 source distribution",
+  "validator_sha256": "b1fc9d338198324d5b85b787191c0fe3a5ed79717029f6d8a02d086f521a08e7",
+  "model_loaded": false,
+  "cases": [
+    {
+      "case": "valid-bound-reply",
+      "expected": true,
+      "gbnf_accepted": true,
+      "json_schema_accepted": true,
+      "exit_code": 0
+    },
+    {
+      "case": "invented-evidence",
+      "expected": false,
+      "gbnf_accepted": false,
+      "json_schema_accepted": false,
+      "exit_code": 0
+    },
+    {
+      "case": "invalid-decision",
+      "expected": false,
+      "gbnf_accepted": false,
+      "json_schema_accepted": false,
+      "exit_code": 0
+    },
+    {
+      "case": "confidence-outside-range",
+      "expected": false,
+      "gbnf_accepted": false,
+      "json_schema_accepted": false,
+      "exit_code": 0
+    },
+    {
+      "case": "unknown-property",
+      "expected": false,
+      "gbnf_accepted": false,
+      "json_schema_accepted": false,
+      "exit_code": 0
+    },
+    {
+      "case": "missing-property",
+      "expected": false,
+      "gbnf_accepted": false,
+      "json_schema_accepted": false,
+      "exit_code": 0
+    },
+    {
+      "case": "valid-summary",
+      "expected": true,
+      "gbnf_accepted": true,
+      "json_schema_accepted": true,
+      "exit_code": 0
+    },
+    {
+      "case": "valid-clones",
+      "expected": true,
+      "gbnf_accepted": true,
+      "json_schema_accepted": true,
+      "exit_code": 0
+    },
+    {
+      "case": "valid-members",
+      "expected": true,
+      "gbnf_accepted": true,
+      "json_schema_accepted": true,
+      "exit_code": 0
+    },
+    {
+      "case": "valid-context",
+      "expected": true,
+      "gbnf_accepted": true,
+      "json_schema_accepted": true,
+      "exit_code": 0
+    }
+  ],
+  "source_archive_sha256": "832db0699007f1be95a7e41ef12e88926b02ba836461e36a36372db2760c1a2e",
+  "build": "cmake -DLLAMA_BUILD_TESTS=ON -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_TOOLS=OFF -DLLAMA_BUILD_SERVER=OFF -DLLAMA_CURL=OFF -DGGML_OPENMP=OFF -DGGML_NATIVE=OFF -DCMAKE_BUILD_TYPE=Release; target test-gbnf-validator"
+}

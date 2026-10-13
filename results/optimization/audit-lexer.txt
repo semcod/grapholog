@@ -1,0 +1,4 @@
+number: canonical_equal=true
+string: canonical_equal=true
+indent: canonical_equal=true
+fstring: canonical_equal=true

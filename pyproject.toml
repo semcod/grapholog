@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "grapholog"
+version = "0.5.0"
+description = "One-shot terminal project graphs, syntax fingerprints and project comparison"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{name = "Grapholog contributors"}]
+dependencies = [
+  "jsonschema>=4.23,<5",
+  "planfile>=0.1.126",
+  "tree-sitter>=0.25,<0.26",
+  "tree-sitter-javascript>=0.25,<0.26",
+  "tree-sitter-typescript>=0.23,<0.24",
+  "tree-sitter-php>=0.24,<0.25",
+  "tree-sitter-bash>=0.25,<0.26",
+]
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.30,<2"]
+grpc = ["grpcio>=1.84,<2", "protobuf>=7.35.1,<8"]
+
+[project.scripts]
+grapholog = "grapholog.cli:main"
+grapholog-llm = "grapholog.llm:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+grapholog = ["data/*.json", "data/*.proto", "data/*.html"]
+
+[tool.costs]
+# AI Cost tracking configuration
+badge = true
+update_readme = true
+readme_path = "README.md"
+default_model = "openrouter/qwen/qwen3-coder-next"
+analysis_mode = "byok"
+full_history = true
+max_commits = 500
+
+# Cost thresholds for badge colors (USD)
+badge_color_thresholds = { low = 1.0, medium = 5.0, high = 10.0, critical = 50.0 }
