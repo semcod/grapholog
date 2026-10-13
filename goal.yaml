@@ -254,10 +254,10 @@ strategies:
       file: package-lock.json
       lock: npm install
   rust:
-    test: cargo test
-    build: cargo build --release
-    publish: cargo publish
-    publish_enabled: true
+    test: cargo test --manifest-path rust/Cargo.toml
+    build: cargo build --release --manifest-path rust/Cargo.toml
+    publish: ''
+    publish_enabled: false
     dependencies:
       file: Cargo.lock
       lock: cargo update
